@@ -105,27 +105,43 @@ int main(){
                     cout << "  ";
                 cout.width(25);
                 cout << "Enter : Confirm";
+
                 int select = getKey(2);
-                if(select == UP){
+                if(select == 13)
+                    break;
+                else if(stageFlag == 0){
+                    if(select == UP)
+                        stageFlag = 3;
+                }
+                else if(select == UP){
                     if((stageFlag - 1) / 2 == 0)
                         stageFlag += 2;
                     else
                         stageFlag -= 2;
                 }
                 else if(select == DOWN){
-                    if((stageFlag - 1) / 2 == 1)
-                        stageFlag -= 2;
-                    else if(stageFlag ==3){
+                    if(stageFlag == 4)
+                        stageFlag = 2;
+                    else if(stageFlag == 3){
                         stageFlag = 0;
                     }
                     else
                         stageFlag += 2;
                 }
                 else if(select == LEFT){
-
+                    if(stageFlag % 2 == 0)
+                        stageFlag--;
+                    else
+                        stageFlag++;
                 }
-                else if(select == 13)
-                    break;
+                else if(select == RIGHT){
+                    if(stageFlag % 2 == 0)
+                        stageFlag--;
+                    else
+                        stageFlag++;
+                }
+                
+                // If stage is selected go onto page 3, else go onto page 0
                 if(stageFlag == 0)
                     pageFlag = 0;
                 else

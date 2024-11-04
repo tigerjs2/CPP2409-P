@@ -5,13 +5,23 @@ As a result, each stage got different logic
 */
 #include <iostream>
 #include <windows.h>
+#include <stdlib.h>
 #include "keyEvent.h"
 
 using namespace std;
+// Stack Node for cancel with ctrl + z
+typedef struct{
+    char stage[12][12];
+    int x = 0; 
+    int y = 0;
+    prevState next;
+}prevState;
+
 // Stage will return 0 = Lose, or 1 = win
 
 //dummy stage for test
 int stage0(){
+    prevState stack;
     int remainder = 300;
     char stage[12][12];
     for (int i = 1; i < 11; i++)
@@ -95,4 +105,20 @@ int stage0(){
         else continue;
     }
     
+}
+
+void add(prevState stack, char stage[12][12], int x, int y){
+    prevState p;
+    p.x = x;
+    p.y = y;
+    for(int i = 0; i < 12; i++){
+        for(int j = 0; j < 12; j++){
+            p.stage[i][j] = stage[i][j];
+        }
+    }
+}
+prevState cancel(prevState stack){
+    if (stack.x != 0){
+        return stack.next;
+    }
 }
