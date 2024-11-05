@@ -1,12 +1,63 @@
 #include "keyEvent.h"
 
+int KeyListener::titleKey() { // Enable Enter vertical direction key, and 'w', 's'
+    int move;
+    while(1){
+        // get key input until meet up, down or ENTER
+        move = _getch();
+        switch(move){
+            case ENTER:
+            case UP:
+            case DOWN:
+            case 'w':
+            case 's':
+                break;
+        }
+    }
+    return move;
+}
+int KeyListener::stageSelectionKey() { // Enable Enter, 4 Direction
+    int move;
+    while(1){
+        // get key input until get 4 direction or Enter
+        move = _getch();
+        switch(move){
+            case ENTER:
+            case LEFT:
+            case RIGHT:
+            case UP:
+            case DOWN:
+            case 'w':
+            case 'a':
+            case 'd':
+            case 's':
+                break;
+        }
+    }
+    return move;
+}
+int KeyListener::getPlayerKey() { // 4 Direction, Ctrl + Z
+    int move;
+    while(1){
+        // get key input until meet up, down or ENTER
+        move = _getch();
+        switch(move){
+            case LEFT:
+            case RIGHT:
+            case UP:
+            case DOWN:
+            case 'w':
+            case 'a':
+            case 'd':
+            case 's':
+            case CTRL_Z:
+                break;
+        }
+    }
+    return move;
+}
 
-
-
-// With this Function, get Key Input without Enter
-// flag 0 = Horizontal Key Enable, flag 1 = Vertical Key Enable, flag 2 = Enable Both, else = only Enter
-// return value: LEFT = 0, RIGHT = 1, UP = 3, DOWN = 4
-
+// Under this will be deleted after Trimming code
 int getKey(int flag){
     // ASCII Code of Direction Keys
     // Direction code return "224" and Direction ASCII code but while reading other lines 224 disappear
