@@ -1,5 +1,4 @@
-#include <iostream>
-#include <windows.h>
+#include "frameBuild.h"
 #include "keyEvent.h"
 #include "stage.h"
 
@@ -20,6 +19,8 @@ Page Flag Instructions
 */
 
 int main(){
+    Frame printer;
+
     const int CENTINEL = -999; // When pageFlag is CENTINEL shutdown the game
     int pageFlag = 0; // Starting Page
     int stageFlag = 1; // Selected Stage
@@ -39,16 +40,32 @@ int main(){
                 // Display Changed State
                 system("cls");
                 printMainTitle();
-                printOption("Select Stage", selected[0]);
-                printOption("Instructions", selected[1]);
-                printOption("    Exit    ", selected[2]);
+                printer.printOption("Select Stage", selected[0]);
+                printer.printOption("Instructions", selected[1]);
+                printer.printOption("    Exit    ", selected[2]);
                 cout << endl << endl << "Enter : Confirm";
 
-                int pointerMove = getKey(1);
-                if(pointerMove == 13) break; // Selection Determined
+                int move = KeyListener.titleKey(); // determine action
+                if(move == KeyListener.ENTER) break; // Selection Determined
                 // Change Selection According to Input
+                // if not Confirming the move is option changing
+                selected[option] = false;
+                if(move == KeyListener.UP){
+                    if(option == 0)
+                        selected[option = 2] = true;
+                    else
+                        selected[--option] = true;
+                }
+                else if(move == KeyListener.DOWN){
+                    if(option == 2)
+                        selected[option = 0] = true;
+                    else
+                        selected[++option] = true;
+                }
+
+                /* movement code under this will be deleted after KeyListener's code is done
                 for(int i = 0; i < OPTION_SIZE; i++){
-                    if(selected[i]){
+                    if(selected[i]){ // Instead using Index Pointer use loop
                         if(pointerMove == UP){
                             if(i == 0){
                                 selected[0] = false;
@@ -79,6 +96,7 @@ int main(){
                         }
                     }
                 }
+            */
             }
             if(option == 2)
                 pageFlag = CENTINEL; // Terminate Game
@@ -90,13 +108,14 @@ int main(){
             while(true){
                 system("cls");
                 // Print title
-                printLine(40);
+                printer.printLine(40);
                 cout.width(26);
                 cout << "Select Stage" << endl;
-                printLine(40);
+                printer.printLine(40);
                 // button
-                printTwoStageButton(1, stageFlag);
-                printTwoStageButton(3, stageFlag);
+                printer.printButtonLine(1, stageFlag);
+                printer.printButtonLine(3, stageFlag);
+                // change code under 
                 cout << endl << "Back to Title";
                 if (stageFlag == 0){
                     cout << " *";
@@ -106,6 +125,26 @@ int main(){
                 cout.width(25);
                 cout << "Enter : Confirm";
 
+                int select = KeyListener.stageSelectionKey();
+                if(select == 13) break; // confirm selection
+                else if(stageFlag == 0) stageFlag = 1; // When pointer is on back to title also get back to stage 1
+                else if(select == KeyListener.UP){
+                    if(stageFlag / 3 == 0) stageFlag += 2;
+                    else stageFlag -= 2;
+                }
+                else if(selected == KeyListener.DOWN){
+                    if(stageFlag / 3 == 1) stageFlag -= 2;
+                    else stageFlag += 2;
+                }
+                else if(selected == KeyListener.LEFT){
+                    if(stageFlag % 2 == 1) stageFlag++;
+                    else stageFlag--;
+                }
+                else if(selected == KeyListener.RIGHT){
+                    if(stageFlag % 2 == 0) stageFlag--;
+                    else stageFlag++;
+                }
+/*
                 int select = getKey(2);
                 if(select == 13)
                     break;
@@ -140,8 +179,9 @@ int main(){
                     else
                         stageFlag++;
                 }
-                
+*/                
                 // If stage is selected go onto page 3, else go onto page 0
+                // put this out of loop later
                 if(stageFlag == 0)
                     pageFlag = 0;
                 else
