@@ -14,5 +14,6 @@ class KeyListener{
         static int getPlayerKey(); // method for game play
         static int titleKey(); // method for option selection in Main page
         static int stageSelectionKey(); // for stage selection page
+        static int enableEnter();
 };
 int getKey(int flag);

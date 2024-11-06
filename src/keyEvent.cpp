@@ -1,62 +1,76 @@
 #include "keyEvent.h"
 
 int KeyListener::titleKey() { // Enable Enter vertical direction key, and 'w', 's'
-    int move;
     while(1){
         // get key input until meet up, down or ENTER
-        move = _getch();
+        int move = _getch();
         switch(move){
             case ENTER:
             case UP:
             case DOWN:
-            case 'w':
+                return move;
+            case 'w': // Handle alphabet as direction key
+                return UP;
             case 's':
-                break;
+                return DOWN;                
         }
     }
-    return move;
+    
 }
 int KeyListener::stageSelectionKey() { // Enable Enter, 4 Direction
-    int move;
     while(1){
         // get key input until get 4 direction or Enter
-        move = _getch();
+        int move = _getch();
         switch(move){
             case ENTER:
             case LEFT:
             case RIGHT:
             case UP:
             case DOWN:
+                return move;
             case 'w':
+                return UP;
             case 'a':
+                return LEFT;
             case 'd':
+                return RIGHT;
             case 's':
-                break;
+                return DOWN;
+                
         }
     }
-    return move;
+    
 }
 int KeyListener::getPlayerKey() { // 4 Direction, Ctrl + Z
-    int move;
     while(1){
         // get key input until meet up, down or ENTER
-        move = _getch();
+        int move = _getch();
         switch(move){
             case LEFT:
             case RIGHT:
             case UP:
             case DOWN:
-            case 'w':
-            case 'a':
-            case 'd':
-            case 's':
             case CTRL_Z:
-                break;
+                return move;
+            case 'w':
+                return UP;
+            case 'a':
+                return LEFT;
+            case 'd':
+                return RIGHT;
+            case 's':
+                return DOWN;
+            
         }
     }
-    return move;
+    
 }
-
+int KeyListener::enableEnter(){ // only Enter Allowed
+    while(1){
+        int move = _getch();
+        if (move == ENTER) return move;
+    }
+}
 // Under this will be deleted after Trimming code
 int getKey(int flag){
     // ASCII Code of Direction Keys

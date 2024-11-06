@@ -5,12 +5,18 @@ void Frame::printLine(int num){ // print '=' 'num' times
         cout << "=";
     cout << endl;
 }
-void Frame::printConfirmAlert(){ // Notify user to press Enter
-    cout << "Enter : Confirm";
+void Frame::printTitle(int num, string name){
+    printLine(num);
+    cout.width((num + name.length()) / 2);
+    cout << name << endl;
+    printLine(num);
 }
-void Frame::printOption(string s, bool selected){ // Print Option line on Main Page
+void Frame::printConfirmAlert(){ // Notify user to press Enter
+    cout << endl << endl << "Enter : Confirm";
+}
+void Frame::printOption(string s, bool selected, int num){ // Print Option line on Main Page
     cout << endl;
-    cout.width(7);
+    cout.width(num);
     if (selected == true){
         cout << "* " << s << endl;
     }
@@ -44,4 +50,13 @@ void Frame::printButtonLine(int start, int selected){ // Print two button on sta
         cout << "" << "---" ;
     }
     cout << endl;   
+}
+
+void Frame::printStage(char board[22][22], int size){
+    for(int i = 0; i < size; i++){
+        for(int j = 0; j < size; j++){
+            cout << board[i][j];
+        }
+        cout << endl;
+    }
 }
