@@ -1,3 +1,4 @@
+#pragma once
 #include "KeyEvent.h"
 
 class Player{

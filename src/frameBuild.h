@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <windows.h>
 
@@ -14,5 +15,5 @@ class Frame{
         // for Stage Selection 
         void printButtonLine(int start, int selected);
         // for game play
-        void printStage(char board[][22], int size);
+        void printStage(char board[][12], int size);
 };

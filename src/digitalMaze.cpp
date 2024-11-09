@@ -67,7 +67,7 @@ int main(){
             while(true){
                 system("cls");
                 // Print title
-                printer.printTitle(40, "Select Stage");
+                printer.printTitle(24, "Select Stage");
                 // button
                 printer.printButtonLine(1, stageFlag);
                 printer.printButtonLine(3, stageFlag);
@@ -126,9 +126,9 @@ int main(){
         }
         // Actual Game Playing Page
         else if(pageFlag == 3){
-            Stage s{100};
+            Stage s{stageFlag};
             // this logic will be done after at least stage 1 is built
-            int gameresult = s.play(printer);
+            int gameresult = s.play(printer, stageFlag);
             if (gameresult == 0){
                 // try again option and back to stage selection option
                 cout << endl << "Fail..   Press Enter to get back to Selection Page";

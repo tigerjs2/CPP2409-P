@@ -1,3 +1,4 @@
+#pragma once
 #include <conio.h>
 // this class is interface of key event handling
 class KeyListener{

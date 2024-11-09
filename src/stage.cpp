@@ -8,24 +8,46 @@ As a result, each stage got different logic
 // #include <iostream>
 // #include <windows.h>
 using namespace std;
-
-void Stage::buildDummyStage(){
-    for(int i = 0; i < size; i++){
+void Stage::buildWall(){ // Every Stage has same border
+    for(int i = 0; i < size; i++){ // Fill with empty space
         for(int j = 0; j < size; j++){
             stage[i][j] = ' ';
         }
     }
-    // build wall
-    for (int i = 0; i < size; i++){
+    for (int i = 0; i < size; i++){  // make border
         stage[i][0] = '#';
         stage[0][i] = '#';
         stage[i][size - 1] = '#';
         stage[size - 1][i] = '#';
     }
+}
+void Stage::buildStage(int stageFlag){ // Load stage according to flag
+    // since entities position has no pattern better type whole stage
+    if (stageFlag == 1){ // Obstacle - Wall only
+        char stage1[size][size] = {{'#','#','#','#','#','#','#','#','#','#','#','#'},
+                                   {'#','P',' ',' ',' ',' ',' ','#',' ',' ','@','#'},
+                                   {'#',' ','#','#','#','#','#',' ',' ','#','#','#'},
+                                   {'#',' ','#',' ',' ',' ','#',' ','#','#',' ','#'},
+                                   {'#',' ',' ',' ','#',' ','#',' ',' ',' ',' ','#'},
+                                   {'#',' ','#','#','#',' ','#',' ',' ','#','#','#'},
+                                   {'#',' ','#',' ',' ',' ','#',' ',' ','#',' ','#'},
+                                   {'#',' ','#',' ','#','#','#',' ','#','#',' ','#'},
+                                   {'#',' ','#',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+                                   {'#',' ','#','#','#','#','#',' ','#','#','#','#'},
+                                   {'#',' ',' ',' ',' ',' ','#',' ','#',' ',' ','#'},
+                                   {'#','#','#','#','#','#','#','#','#','#','#','#'}
+                                   };
+        copy(&stage1[0][0], &stage1[size-1][size-1],&stage[0][0]);
+    }
+    else buildDummyStage();
+}
+void Stage::buildDummyStage(){
+    buildWall();
     stage[size - 1][size - 1] = '#';
     stage[1][1] = 'P'; // Player
-    stage[20][20] = '@'; // Goal
+    stage[10][10] = '@'; // Goal
 }
+
 void Stage::changeBoard(int action){ // activate when player success moving
     // change position in board, user's location, and decrease statmina
     stage[user.getY()][user.getX()] = ' ';
@@ -33,18 +55,27 @@ void Stage::changeBoard(int action){ // activate when player success moving
     stage[user.getY()][user.getX()] = 'P';
     user.decreaseStamina();
 }
-Stage::Stage(int user_stamina){ // later according to flag, will build different stage map
-    user = Player {user_stamina};
-    buildDummyStage();
+
+Stage::Stage(int stageFlag){ // later according to flag, will build different stage map
+    switch(stageFlag){
+        case 1:
+            user = Player{35}; // Least movement for stage 1 is 29
+            break;
+        default: // for dummy stage
+            user = Player{100};
+            break;
+    }
+    buildStage(stageFlag);
 };
 
-int Stage::play(Frame f){ // Default Logic of game play, might be changed according to obstacles
+int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be changed according to obstacles
     int clearFlag = 0; // if flag is 1 clear
     char encounter; // Entity that is which is on
+    string title[5] = {"Stage0", "Stage1", "Stage2", "Stage3", "Stage4"};
     while(true){
         // refresh displayed screen
         system("cls");
-        f.printTitle(22, "Stage0");
+        f.printTitle(12, title[stageFlag]);
         cout << endl;
         f.printStage(stage, size);
         cout << "Stamina : " << user.getStamina() << endl;
