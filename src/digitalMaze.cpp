@@ -129,20 +129,61 @@ int main(){
             Stage s{stageFlag};
             // this logic will be done after at least stage 1 is built
             int gameresult = s.play(printer, stageFlag);
-            if (gameresult == 0){
-                // try again option and back to stage selection option
-                cout << endl << "Fail..   Press Enter to get back to Selection Page";
-                KeyListener::enableEnter();
-                pageFlag = 1;
+            // Stage End, Give Multiple Choice
+            bool choice[3] = {true, false, false};
+            int pointer = 0;
+            int move = 0;
+            while(move != KeyListener::ENTER){
+                system("cls");
+                if (gameresult == 0 || stageFlag == 4){ // Last stage can't go onto next stage
+                    // try again option and back to stage selection option
+                    if(gameresult == 0)
+                        printer.printTitle(14 ,"Fail..");
+                    else
+                        printer.printTitle(14, "Clear!");
+                    printer.printOption("Try Again?", choice[0], 1);
+                    printer.printOption("Map Select", choice[1], 1);
+                    move = KeyListener::titleKey(); // determine action
+                    if(move != KeyListener::ENTER){ // Since only two options it will toggle
+                        choice[0] = !choice[0];
+                        choice[1] = !choice[1]; 
+                    }
+                }
+                else{
+                    printer.printTitle(14, "Clear!");
+                    printer.printOption("Try Again?", choice[0], 1);
+                    printer.printOption("Map Select", choice[1], 1);
+                    printer.printOption("Next Stage", choice[2], 1);
+                    move = KeyListener::titleKey(); // determine action
+                    if(move == KeyListener::UP){
+                        choice[pointer] = false;
+                        if(pointer == 0){
+                            choice[pointer = 2] = true;
+                        }
+                        else{
+                            choice[--pointer] = true;
+                        }
+                    }
+                    else if(move == KeyListener::DOWN){
+                        choice[pointer] = false;
+                        if(pointer == 2){
+                            choice[pointer = 0] = true;
+                        }
+                        else{
+                            choice[++pointer] = true;
+                        }
+                    }      
+                }          
             }
+            if(choice[1]) 
+                pageFlag = 1; // go onto selection page
+            else if(choice[0])
+                pageFlag = 3; // keep playing this stage
             else{
-                cout << endl << "Clear!   Press Enter to get back to Selection Page";
-                KeyListener::enableEnter();
-                pageFlag = 1;
-                // next stage, try again, back to stage select0ion
+                pageFlag = 3;
+                ++stageFlag;
             }
         }
     }
-
     return 0;
 }

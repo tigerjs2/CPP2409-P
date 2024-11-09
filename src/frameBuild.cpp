@@ -14,7 +14,7 @@ void Frame::printTitle(int num, string name){
 void Frame::printConfirmAlert(){ // Notify user to press Enter
     cout << endl << endl << "Enter : Confirm";
 }
-void Frame::printOption(string s, bool selected, int num){ // Print Option line on Main Page
+void Frame::printOption(string s, bool selected, int num){ // Print Option line
     cout << endl;
     cout.width(num);
     if (selected == true){
