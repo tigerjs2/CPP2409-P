@@ -14,7 +14,9 @@ class Player{
         void move(int direction); // change position according to direction flag
         bool checkAlive(); // check remaining stamina
         int getStamina();
+        void setStamina(int n);
         int getX();
         int getY();
+        void setLocation(int x, int y);
         void decreaseStamina();
 };

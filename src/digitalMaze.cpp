@@ -139,7 +139,7 @@ int main(){
                 cout << endl << "Clear!   Press Enter to get back to Selection Page";
                 KeyListener::enableEnter();
                 pageFlag = 1;
-                // next stage, try again, back to stage selection
+                // next stage, try again, back to stage select0ion
             }
         }
     }

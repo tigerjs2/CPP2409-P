@@ -28,6 +28,11 @@ bool Player::checkAlive(){ // check remaining stamina and if lower than 0 return
         return true;
 }
 int Player::getStamina() { return stamina;}
+void Player::setStamina(int n){ stamina = n;}
 int Player::getX() { return x; }
 int Player::getY() { return y; }
+void Player::setLocation(int x, int y){
+    this->x = x;
+    this->y = y;
+}
 void Player::decreaseStamina(){ stamina--; } // might be used if any harmful obstacles are designed, at this point only for movement

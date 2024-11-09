@@ -8,6 +8,7 @@ As a result, each stage got different logic
 // #include <iostream>
 // #include <windows.h>
 using namespace std;
+// About Frame
 void Stage::buildWall(){ // Every Stage has same border
     for(int i = 0; i < size; i++){ // Fill with empty space
         for(int j = 0; j < size; j++){
@@ -48,6 +49,15 @@ void Stage::buildDummyStage(){
     stage[10][10] = '@'; // Goal
 }
 
+// For Ctrl + Z
+StageNode::StageNode(char s[size][size], Player u){
+    copy(&s[0][0], &s[size - 1][size - 1], &stage[0][0]);
+    x = u.getX();
+    y = u.getY();
+    hp = u.getStamina();
+}
+
+// About GamePlay
 void Stage::changeBoard(int action){ // activate when player success moving
     // change position in board, user's location, and decrease statmina
     stage[user.getY()][user.getX()] = ' ';
@@ -55,7 +65,6 @@ void Stage::changeBoard(int action){ // activate when player success moving
     stage[user.getY()][user.getX()] = 'P';
     user.decreaseStamina();
 }
-
 Stage::Stage(int stageFlag){ // later according to flag, will build different stage map
     switch(stageFlag){
         case 1:
@@ -67,7 +76,6 @@ Stage::Stage(int stageFlag){ // later according to flag, will build different st
     }
     buildStage(stageFlag);
 };
-
 int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be changed according to obstacles
     int clearFlag = 0; // if flag is 1 clear
     char encounter; // Entity that is which is on
@@ -86,6 +94,16 @@ int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be
         }
 
         int action = KeyListener::getPlayerKey(); // get user action
+        if(action == KeyListener::CTRL_Z){ // return to previous state if Ctrl + Z pressed
+            if(stack.empty() == false){
+                StageNode tmp = stack.top();
+                user.setLocation(tmp.x, tmp.y);
+                user.setStamina(tmp.hp);
+                copy(&tmp.stage[0][0], &tmp.stage[size - 1][size - 1], &stage[0][0]);
+                stack.pop();
+                continue;
+            }
+        }
         if(!user.checkAlive()){ // if user try to move when stamina is 0 or less game over
             break;
         }
@@ -93,27 +111,32 @@ int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be
         if(action == KeyListener::UP){
             encounter = stage[user.getY() - 1][user.getX()];
             if(encounter == ' ' || encounter == '@'){
+                stack.push(StageNode{stage, user}); // save state before change
                 changeBoard(action);
             }
         }
         else if(action == KeyListener::DOWN){
             encounter = stage[user.getY() + 1][user.getX()];
             if(encounter == ' ' || encounter == '@'){
+                stack.push(StageNode{stage, user});
                 changeBoard(action);
             }
         }
         else if(action == KeyListener::LEFT){
             encounter = stage[user.getY()][user.getX() - 1];
             if(encounter == ' ' || encounter == '@'){
+                stack.push(StageNode{stage, user});
                 changeBoard(action);
             }
         }
         else if(action == KeyListener::RIGHT){
             encounter = stage[user.getY()][user.getX() + 1];
             if(encounter == ' ' || encounter == '@'){
+                stack.push(StageNode{stage, user});
                 changeBoard(action);
             }
         }
     }
+    while(!stack.empty()){stack.pop();}
     return clearFlag;
 }
