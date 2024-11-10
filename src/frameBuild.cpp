@@ -5,7 +5,7 @@ void Frame::printLine(int num){ // print '=' 'num' times
         cout << "=";
     cout << endl;
 }
-void Frame::printTitle(int num, string name){
+void Frame::printTitle(int num, string name){ // Print Page Title
     printLine(num);
     cout.width((num + name.length()) / 2);
     cout << name << endl;

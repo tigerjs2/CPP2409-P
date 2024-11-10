@@ -5,8 +5,6 @@ As a result, each stage got different logic
 */
 #include "stage.h"
 
-// #include <iostream>
-// #include <windows.h>
 using namespace std;
 // About Frame
 void Stage::buildWall(){ // Every Stage has same border

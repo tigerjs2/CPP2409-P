@@ -17,4 +17,3 @@ class KeyListener{
         static int stageSelectionKey(); // for stage selection page
         static int enableEnter();
 };
-int getKey(int flag);

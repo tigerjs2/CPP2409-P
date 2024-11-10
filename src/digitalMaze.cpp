@@ -74,8 +74,6 @@ int main(){
                 // change code under 
                 printer.printOption("Back to Title", !stageFlag, 2);
                 printer.printConfirmAlert();
-                // cout.width(25);
-                // cout << "Enter : Confirm";
 
                 int selected = KeyListener::stageSelectionKey();
                 if(selected == 13) break; // confirm selection
@@ -143,17 +141,19 @@ int main(){
                         printer.printTitle(14, "Clear!");
                     printer.printOption("Try Again?", choice[0], 1);
                     printer.printOption("Map Select", choice[1], 1);
+                    printer.printConfirmAlert();
                     move = KeyListener::titleKey(); // determine action
                     if(move != KeyListener::ENTER){ // Since only two options it will toggle
                         choice[0] = !choice[0];
                         choice[1] = !choice[1]; 
                     }
                 }
-                else{
+                else{ // if game clear
                     printer.printTitle(14, "Clear!");
                     printer.printOption("Try Again?", choice[0], 1);
                     printer.printOption("Map Select", choice[1], 1);
                     printer.printOption("Next Stage", choice[2], 1);
+                    printer.printConfirmAlert();
                     move = KeyListener::titleKey(); // determine action
                     if(move == KeyListener::UP){
                         choice[pointer] = false;
@@ -175,14 +175,12 @@ int main(){
                     }      
                 }          
             }
+            // At this point pageFlag is 3, therefore only choice[1] need to change the flag
             if(choice[1]) 
                 pageFlag = 1; // go onto selection page
-            else if(choice[0])
-                pageFlag = 3; // keep playing this stage
-            else{
-                pageFlag = 3;
-                ++stageFlag;
-            }
+            else if(choice[2])
+                ++stageFlag; // go onto next stage
+            
         }
     }
     return 0;
