@@ -21,7 +21,7 @@ class Stage{
         void buildWall();
         void buildStage(int stageFlag);
         void buildDummyStage();
-        void changeBoard(int action);
+        void changeBoard(int action, Moveable &m);
     public:
         Stage(int stageFlag);
         int play(Frame f, int stageFlag);       
