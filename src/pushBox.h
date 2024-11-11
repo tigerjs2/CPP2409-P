@@ -1,16 +1,10 @@
 #pragma once
-#include "keyEvent.h"
+#include "moveable.h"
 // Since it's moveable object, pushable box will be class instance
 // It will have similar logic to Player
 
-class PushBox{
-    private:
-        int x, y;
+class PushBox : public Moveable{     
     public:
-        static const char PUSH = 'O'; // Symbol for this entity
-        PushBox(int x, int y);
-        void move(int direction);
-        int getX();
-        int getY();
-        void setLocation(int x, int y);
+        static const char ROCK = 'O'; // Symbol for this entity
+        PushBox(int x, int y):Moveable(x, y){}
 };

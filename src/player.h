@@ -1,7 +1,7 @@
 #pragma once
-#include "KeyEvent.h"
+#include "moveable.h"
 
-class Player{
+class Player : public Moveable{
     private:
         // initial position of player is fixed
         int x = 1;
@@ -11,12 +11,8 @@ class Player{
         static const char PLAYER = 'P';
         Player(){ stamina = 0; } // Default for make at Least Trash Instance
         Player(int s){ stamina = s; }
-        void move(int direction); // change position according to direction flag
         bool checkAlive(); // check remaining stamina
         int getStamina();
         void setStamina(int n);
-        int getX();
-        int getY();
-        void setLocation(int x, int y);
         void decreaseStamina();
 };

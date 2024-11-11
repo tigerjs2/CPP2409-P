@@ -43,9 +43,9 @@ void Stage::buildStage(int stageFlag){ // Load stage according to flag
                                    {'#','P','B','#',' ',' ','#',' ',' ',' ',' ','#'},
                                    {'#','#',' ','#',' ',' ','#',' ','#','#','#','#'},
                                    {'#',' ',' ','#','#','#','#',' ','#',' ',' ','#'},
-                                   {'#',' ',' ','B',' ',' ',' ',' ',' ',' ',' ','#'},
-                                   {'#','#',' ','#','#','#','#',' ','#','#',' ','#'},
-                                   {'#','#',' ','#',' ',' ',' ',' ','#','#',' ','#'},
+                                   {'#',' ',' ','B','O',' ',' ',' ',' ',' ',' ','#'},
+                                   {'#','#','B','#','#','#','#',' ','#','#',' ','#'},
+                                   {'#','#','O','#',' ',' ',' ',' ','#','#',' ','#'},
                                    {'#','#',' ','#','#','#','#','#',' ','#','B','#'},
                                    {'#','#',' ','#',' ',' ','#',' ',' ','O','O','#'},
                                    {'#',' ',' ',' ','O',' ',' ',' ','O','B','#','#'},
@@ -72,17 +72,18 @@ StageNode::StageNode(char s[size][size], Player u){
 }
 
 // About GamePlay
-void Stage::changeBoard(int action){ // activate when player success moving
+void Stage::changeBoard(int action, Moveable &m){ // activate when player success moving
     // change position in board, user's location, and decrease statmina
-    stage[user.getY()][user.getX()] = ' ';
-    user.move(action);
-    stage[user.getY()][user.getX()] = 'P';
+    stage[m.getY()][m.getX()] = ' ';
+    m.move(action);
+    stage[m.getY()][m.getX()] = 'P';
     user.decreaseStamina();
 }
 Stage::Stage(int stageFlag){ // later according to flag, will build different stage map
     switch(stageFlag){
         case 1:
-            user = Player{35}; // Least movement for stage 1 is 29
+        case 2:
+            user = Player{35}; // Least movement for stage1 is 29, for stage2 32
             break;
         default: // for dummy stage
             user = Player{100};
@@ -124,30 +125,47 @@ int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be
         // Change stage according to player's movement
         if(action == KeyListener::UP){
             encounter = stage[user.getY() - 1][user.getX()];
+            if(encounter != '#') stack.push(StageNode{stage, user}); // only encountering wall doesn't change the state
             if(encounter == ' ' || encounter == '@'){
                 stack.push(StageNode{stage, user}); // save state before change
-                changeBoard(action);
+                changeBoard(action, user);
+            }
+            else if(encounter == 'B'){
+                user.decreaseStamina();
+                stage[user.getY() - 1][user.getX()] = ' ';
             }
         }
         else if(action == KeyListener::DOWN){
             encounter = stage[user.getY() + 1][user.getX()];
+            if(encounter != '#') stack.push(StageNode{stage, user}); // only encountering wall doesn't change the state
             if(encounter == ' ' || encounter == '@'){
-                stack.push(StageNode{stage, user});
-                changeBoard(action);
+                changeBoard(action, user);
+            }
+            else if(encounter == 'B'){
+                user.decreaseStamina();
+                stage[user.getY() + 1][user.getX()] = ' ';
             }
         }
         else if(action == KeyListener::LEFT){
             encounter = stage[user.getY()][user.getX() - 1];
+            if(encounter != '#') stack.push(StageNode{stage, user}); // only encountering wall doesn't change the state
             if(encounter == ' ' || encounter == '@'){
-                stack.push(StageNode{stage, user});
-                changeBoard(action);
+                changeBoard(action, user);
+            }
+            else if(encounter == 'B'){
+                user.decreaseStamina();
+                stage[user.getY()][user.getX() - 1] = ' ';
             }
         }
         else if(action == KeyListener::RIGHT){
             encounter = stage[user.getY()][user.getX() + 1];
+            if(encounter != '#') stack.push(StageNode{stage, user}); // only encountering wall doesn't change the state
             if(encounter == ' ' || encounter == '@'){
-                stack.push(StageNode{stage, user});
-                changeBoard(action);
+                changeBoard(action, user);
+            }
+            else if(encounter == 'B'){
+                user.decreaseStamina();
+                stage[user.getY()][user.getX() + 1] = ' ';
             }
         }
     }

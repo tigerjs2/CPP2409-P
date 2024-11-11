@@ -107,16 +107,26 @@ int main(){
             system("cls");
             // most code in this line will goto Frame Class
             // Print title
-            printer.printTitle(40, "Instructions");
+            printer.printTitle(58, "Instructions");
             // How to Play
             cout << "* Movement" << endl;
             cout << "   W          ^" << endl;
             cout << " A   D  or  <   > : Move to the Direction Once" << endl;
             cout << "   S          v" << endl;
+            cout << endl << "'Crtl + Z' : Undo" << endl;
             cout << endl << "* Entities" << endl;
             cout << "'P' : Player" << endl;
-            cout << "'#' : Wall" << endl << endl;
-            cout.width(40);
+            cout << "'#' : Wall - Can't break, push or kick. It's fixed" << endl;
+            cout << "'L' : Lock - Can't break, push or kick. Might be disposable" << endl;
+            cout << "'K' : Key - Unlock the 'Lock' Entity" << endl;
+            cout << "'#' : Wall - Can't break, push or kick. It's fixed" << endl;
+            cout << "'W' : Warp Portal - Two object exist." << endl;
+            cout << "                    Touching one, warp to the other" << endl;
+            cout << "'B' : Breakable Box - You can break it by kicking it once" << endl;
+            cout << "'O' : Pushable Rock - You can push it." << endl;
+            cout << "                      You can kick it though it's blocked" << endl << endl;
+
+            cout.width(58);
             cout << "Enter : Return to Title...";
             
             KeyListener::enableEnter(); // Loof until Pressing Enter
