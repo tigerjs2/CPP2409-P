@@ -6,5 +6,4 @@
 class PushBox : public Moveable{     
     public:
         static const char ROCK = 'O'; // Symbol for this entity
-        PushBox(int x, int y):Moveable(x, y){}
 };

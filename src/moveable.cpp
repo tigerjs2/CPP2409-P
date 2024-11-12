@@ -1,6 +1,6 @@
 #include "moveable.h"
 
-Moveable::Moveable(int x, int y){ // set initial position
+Moveable::Moveable(int x, int y,char s):Entity(s){ // set initial position
     setLocation(x, y);
 }
 void Moveable::move(int direction){ // entity change position according to key stroke
