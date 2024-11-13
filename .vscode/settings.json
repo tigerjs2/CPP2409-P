@@ -5,6 +5,10 @@
         "xiosbase": "cpp",
         "xstring": "cpp",
         "initializer_list": "cpp",
-        "xutility": "cpp"
+        "xutility": "cpp",
+        "array": "cpp",
+        "deque": "cpp",
+        "stack": "cpp",
+        "type_traits": "cpp"
     }
 }

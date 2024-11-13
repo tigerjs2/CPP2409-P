@@ -36,7 +36,7 @@ void Stage::buildStage(int stageFlag){ // Load stage according to flag
                                    {'#',' ',' ',' ',' ',' ','#',' ','#',' ',' ','#'},
                                    {'#','#','#','#','#','#','#','#','#','#','#','#'}
                                    };
-        copy(&stage1[0][0], &stage1[size-1][size-1],&stage[0][0]);
+        copy(&stage1[0][0], &stage1[0][0] + (size*size),&stage[0][0]);
     }
     else if(stageFlag == 2){
         char stage2[size][size] = {{'#','#','#','#','#','#','#','#','#','#','#','#'},
@@ -52,7 +52,7 @@ void Stage::buildStage(int stageFlag){ // Load stage according to flag
                                    {'#','#',' ','#',' ',' ','#','O',' ',' ','@','#'},
                                    {'#','#','#','#','#','#','#','#','#','#','#','#'}
                                    };
-        copy(&stage2[0][0], &stage2[size-1][size-1],&stage[0][0]);
+        copy(&stage2[0][0], &stage2[0][0] + (size*size),&stage[0][0]);
     }
     else buildDummyStage();
 }
@@ -65,7 +65,7 @@ void Stage::buildDummyStage(){
 
 // For Ctrl + Z
 StageNode::StageNode(char s[size][size], Player u){
-    copy(&s[0][0], &s[size - 1][size - 1], &stage[0][0]);
+    copy(&s[0][0], &s[0][0] + (size*size), &stage[0][0]);
     x = u.getX();
     y = u.getY();
     hp = u.getStamina();
@@ -114,7 +114,7 @@ int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be
                 StageNode tmp = stack.top();
                 user.setLocation(tmp.x, tmp.y);
                 user.setStamina(tmp.hp);
-                copy(&tmp.stage[0][0], &tmp.stage[size - 1][size - 1], &stage[0][0]);
+                copy(&tmp.stage[0][0], &tmp.stage[0][0] + (size*size), &stage[0][0]);
                 stack.pop();
                 continue;
             }
