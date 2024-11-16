@@ -52,10 +52,10 @@ void Frame::printButtonLine(int start, int selected){ // Print two button on sta
     cout << endl;   
 }
 
-void Frame::printStage(char board[][12], int size){
+void Frame::printStage(Entity ***stage, int size){
     for(int i = 0; i < size; i++){
         for(int j = 0; j < size; j++){
-            cout << board[i][j];
+            cout << stage[i][j]->getSymbol();
         }
         cout << endl;
     }
