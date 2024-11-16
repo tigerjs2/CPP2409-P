@@ -144,6 +144,17 @@ int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be
                 x = next_x;
                 y = next_y;
             }
+            else if(encounter == 'B'){
+                STAGE[next_y][next_x]->setSymbol(' ');
+            }
+            else if(encounter == 'O'){
+                // position beyond 'O'
+                int next_x2 = 2 * next_x - x;
+                int next_y2 = 2 * next_y - y;
+                if(STAGE[next_y2][next_x2]->getSymbol() == ' '){
+                    changeBoard(next_x, next_y, next_x2, next_y2);
+                }
+            }
         }
     }
     return clearFlag;
