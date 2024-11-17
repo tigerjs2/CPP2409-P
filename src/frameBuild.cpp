@@ -52,10 +52,13 @@ void Frame::printButtonLine(int start, int selected){ // Print two button on sta
     cout << endl;   
 }
 
-void Frame::printStage(Entity ***stage, int size){
+void Frame::printStage(Entity ***stage, int size, int stamina){
     for(int i = 0; i < size; i++){
         for(int j = 0; j < size; j++){
-            cout << stage[i][j]->getSymbol();
+            if(stamina % 2 == 1 && stage[i][j]->getSymbol() == 'W') // later change this with Warp->isActivate
+                cout << ' ';
+            else
+                cout << stage[i][j]->getSymbol();
         }
         cout << endl;
     }

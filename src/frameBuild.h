@@ -12,5 +12,5 @@ class Frame{
         void printConfirmAlert();
         void printOption(string name, bool selected, int num);
         void printButtonLine(int start, int selected);
-        void printStage(Entity ***stage, int size);
+        void printStage(Entity ***stage, int size, int stamina);
 };

@@ -16,10 +16,25 @@ Stage::~Stage(){
     delete [] STAGE;
 }
 void Stage::buildSupport(int stamina, char stage[][size]){
+    Portal *p = nullptr;
     for(int i = 0; i < size; i++){
             for(int j = 0; j < size; j++)
                 if(stage[i][j] == 'P')
                     STAGE[i][j] = new Player{stamina};
+                else if(stage[i][j] == 'W'){
+                    if(p == nullptr){
+                        p = new Portal{j, i};
+                        STAGE[i][j] = p;
+                    }
+                    else{
+                        Portal *q = new Portal(j, i);
+                        p->connect(q);
+                        q->connect(p);
+                        STAGE[i][j] = q;
+                        p = nullptr;
+                        q = nullptr;
+                    }
+                }
                 else
                     STAGE[i][j] = new Entity{stage[i][j]};
     }
@@ -70,10 +85,10 @@ void Stage::buildStage(int stageFlag){ // Load stage according to flag
                                    {'#',' ','B','W','#',' ',' ',' ','#','#','#','#'},
                                    {'#',' ','#',' ','B',' ','#','#',' ',' ',' ','#'},
                                    {'#',' ','#',' ','#',' ',' ','#',' ',' ',' ','#'},
-                                   {'#',' ','#','B','#',' ','#','#','#','#','#','#'},
-                                   {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+                                   {'#',' ','#',' ','#',' ','#','#','#','#','#','#'},
+                                   {'#',' ',' ','B',' ',' ',' ',' ',' ',' ',' ','#'},
                                    {'#',' ','#','#','#','#',' ','#',' ','#','#','#'},
-                                   {'#',' ',' ','O',' ',' ',' ',' ','B',' ','W','#'},
+                                   {'#',' ',' ',' ','O',' ',' ',' ','B',' ','W','#'},
                                    {'#',' ','#','#','#','#',' ','#','#','#','#','#'},
                                    {'#','#','#','#','#','#','#','#','#','#','#','#'}
                                    };
@@ -117,7 +132,7 @@ int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be
         system("cls");
         f.printTitle(12, title[stageFlag]);
         cout << endl;
-        f.printStage(STAGE, size);
+        f.printStage(STAGE, size, user->getStamina());
         cout << "Stamina : " << user->getStamina() << endl;
 
         if(encounter == '@'){ // if reaching goal clear!
@@ -157,7 +172,7 @@ int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be
             encounter = STAGE[next_y][--next_x]->getSymbol();
         else if(action == KeyListener::RIGHT)
             encounter = STAGE[next_y][++next_x]->getSymbol();
-        if(encounter == '#'){ // If player meets wall, no action performed
+        if(encounter == '#' || (encounter == 'W' && user->getStamina() % 2 == 0)){ // If player meets wall or try to enter disabled portal, no action performed
             continue;
         }
         else{ // Action performed
@@ -169,16 +184,19 @@ int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be
                 x = next_x;
                 y = next_y;
             }
-            else if(encounter == 'B'){
+            else if(encounter == 'B'){ // Break Obstacle
                 STAGE[next_y][next_x]->setSymbol(' ');
             }
-            else if(encounter == 'O'){
+            else if(encounter == 'O'){ // Kick Obstacle
                 // position beyond 'O'
                 int next_x2 = 2 * next_x - x;
                 int next_y2 = 2 * next_y - y;
-                if(STAGE[next_y2][next_x2]->getSymbol() == ' '){
+                if(STAGE[next_y2][next_x2]->getSymbol() == ' '){ // Push Obstacle if space exist
                     changeBoard(next_x, next_y, next_x2, next_y2);
                 }
+            }
+            else if(encounter == 'W'){
+                
             }
         }
     }

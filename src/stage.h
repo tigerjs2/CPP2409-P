@@ -1,6 +1,7 @@
 #pragma once
 #include "frameBuild.h"
 #include "player.h"
+#include "portal.h"
 #include "keyEvent.h"
 #include "node.h"
 #include <stack>
