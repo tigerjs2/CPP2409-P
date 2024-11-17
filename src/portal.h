@@ -11,4 +11,6 @@ class Portal:public Entity{
         void connect(Portal *p);
         bool isActivate();
         void toggle();
+        int getConnectedX();
+        int getConnectedY();
 };

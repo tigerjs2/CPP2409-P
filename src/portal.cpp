@@ -14,3 +14,5 @@ bool Portal::isActivate(){
 void Portal::toggle(){
     activate = !activate;
 }
+int Portal::getConnectedX(){ return next_x;}
+int Portal::getConnectedY(){ return next_y;}

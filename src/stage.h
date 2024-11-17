@@ -18,6 +18,7 @@ class Stage{
         void buildStage(int stageFlag);
         void buildDummyStage();
         void changeBoard(int x, int y, int next_x, int next_y);
+        void warp(int next_x, int next_y);
         stack<StageNode> stack;
     public:
         Stage(int stageFlag);

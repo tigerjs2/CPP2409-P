@@ -62,7 +62,7 @@ void Stage::buildStage(int stageFlag){ // Load stage according to flag
                                    };
         buildSupport(35, stage1);
     }
-    else if(stageFlag == 2){
+    else if(stageFlag == 2){ // Obstacle - Wall, Breakable Box, and Pushable Box
         char stage2[size][size] = {{'#','#','#','#','#','#','#','#','#','#','#','#'},
                                    {'#','P','B','#',' ',' ','#',' ',' ',' ',' ','#'},
                                    {'#','#',' ','#',' ',' ','#',' ','#','#','#','#'},
@@ -78,7 +78,7 @@ void Stage::buildStage(int stageFlag){ // Load stage according to flag
                                    };
         buildSupport(35, stage2);
     }
-    else if(stageFlag == 3){
+    else if(stageFlag == 3){ // Obstacle - Wall, Breakable Box, Pushable Box, and Warp Portal
         char stage3[size][size] = {{'#','#','#','#','#','#','#','#','#','#','#','#'},
                                    {'#','P','#','@','#',' ',' ','O','#','@',' ','#'},
                                    {'#',' ','#','B','#',' ',' ','O',' ',' ','O','#'},
@@ -86,7 +86,7 @@ void Stage::buildStage(int stageFlag){ // Load stage according to flag
                                    {'#',' ','#',' ','B',' ','#','#',' ',' ',' ','#'},
                                    {'#',' ','#',' ','#',' ',' ','#',' ',' ',' ','#'},
                                    {'#',' ','#',' ','#',' ','#','#','#','#','#','#'},
-                                   {'#',' ',' ','B',' ',' ',' ',' ',' ',' ',' ','#'},
+                                   {'#',' ','B','B','B',' ',' ',' ',' ',' ',' ','#'},
                                    {'#',' ','#','#','#','#',' ','#',' ','#','#','#'},
                                    {'#',' ',' ',' ','O',' ',' ',' ','B',' ','W','#'},
                                    {'#',' ','#','#','#','#',' ','#','#','#','#','#'},
@@ -113,6 +113,17 @@ void Stage::buildDummyStage(){
 }
 
 // About GamePlay
+void Stage::warp(int next_x, int next_y){ // When player enter Activated portal player warp and portal vanish
+    Portal *p = dynamic_cast<Portal*>(STAGE[next_y][next_x]);
+    // Player warp
+    changeBoard(x, y, p->getConnectedX(), p->getConnectedY());
+    // Portal Disappear
+    STAGE[y][x]->setSymbol(' ');
+    p->setSymbol(' ');
+    // Update player's location
+    x = p->getConnectedX();
+    y = p->getConnectedY();
+}
 void Stage::changeBoard(int x, int y, int next_x, int next_y){ // activate when player success moving
     Entity *tmp = STAGE[y][x];
     STAGE[y][x] = STAGE[next_y][next_x];
@@ -196,7 +207,7 @@ int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be
                 }
             }
             else if(encounter == 'W'){
-                
+                warp(next_x, next_y);
             }
         }
     }
