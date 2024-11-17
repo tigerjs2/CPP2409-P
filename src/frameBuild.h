@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include <windows.h>
+#include <stdlib.h>
 #include "entity.h"
 
 using namespace std;

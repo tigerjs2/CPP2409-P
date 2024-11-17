@@ -2,12 +2,6 @@
 
 using namespace std;
 
-// Function for Main Page
-void printMainTitle(); // print title line
-void printOption(string s, bool selected); // print option line
-void printLine(int num); // print line made with '='
-void printTwoStageButton(int start, int size); // print button for selection page
-
 /*
 Page Flag Instructions
 0: Title Page
