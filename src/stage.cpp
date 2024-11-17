@@ -15,7 +15,15 @@ Stage::~Stage(){
     }
     delete [] STAGE;
 }
-
+void Stage::buildSupport(int stamina, char stage[][size]){
+    for(int i = 0; i < size; i++){
+            for(int j = 0; j < size; j++)
+                if(stage[i][j] == 'P')
+                    STAGE[i][j] = new Player{stamina};
+                else
+                    STAGE[i][j] = new Entity{stage[i][j]};
+    }
+}
 void Stage::buildStage(int stageFlag){ // Load stage according to flag
     // Build Stage with Dynamic Allocation
     // since entities position has no pattern, better type whole stage
@@ -37,13 +45,7 @@ void Stage::buildStage(int stageFlag){ // Load stage according to flag
                                    {'#',' ',' ',' ',' ',' ','#',' ','#',' ',' ','#'},
                                    {'#','#','#','#','#','#','#','#','#','#','#','#'}
                                    };
-        for(int i = 0; i < size; i++){
-            for(int j = 0; j < size; j++)
-                if(stage1[i][j] == 'P')
-                    STAGE[i][j] = new Player{35};
-                else
-                    STAGE[i][j] = new Entity{stage1[i][j]};
-        }
+        buildSupport(35, stage1);
     }
     else if(stageFlag == 2){
         char stage2[size][size] = {{'#','#','#','#','#','#','#','#','#','#','#','#'},
@@ -59,13 +61,23 @@ void Stage::buildStage(int stageFlag){ // Load stage according to flag
                                    {'#','#',' ','#',' ',' ','#','O',' ',' ','@','#'},
                                    {'#','#','#','#','#','#','#','#','#','#','#','#'}
                                    };
-        for(int i = 0; i < size; i++){
-            for(int j = 0; j < size; j++)
-                if(stage2[i][j] == 'P')
-                    STAGE[i][j] = new Player{35};
-                else
-                    STAGE[i][j] = new Entity{stage2[i][j]};
-        }
+        buildSupport(35, stage2);
+    }
+    else if(stageFlag == 3){
+        char stage3[size][size] = {{'#','#','#','#','#','#','#','#','#','#','#','#'},
+                                   {'#','P','#','@','#',' ',' ','O','#','@',' ','#'},
+                                   {'#',' ','#','B','#',' ',' ','O',' ',' ','O','#'},
+                                   {'#',' ','B','W','#',' ',' ',' ','#','#','#','#'},
+                                   {'#',' ','#',' ','B',' ','#','#',' ',' ',' ','#'},
+                                   {'#',' ','#',' ','#',' ',' ','#',' ',' ',' ','#'},
+                                   {'#',' ','#','B','#',' ','#','#','#','#','#','#'},
+                                   {'#',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','#'},
+                                   {'#',' ','#','#','#','#',' ','#',' ','#','#','#'},
+                                   {'#',' ',' ','O',' ',' ',' ',' ','B',' ','W','#'},
+                                   {'#',' ','#','#','#','#',' ','#','#','#','#','#'},
+                                   {'#','#','#','#','#','#','#','#','#','#','#','#'}
+                                   };
+        buildSupport(30, stage3);
     }
     else buildDummyStage();
 }
@@ -115,7 +127,20 @@ int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be
 
         int action = KeyListener::getPlayerKey(); // get user action
         if(action == KeyListener::CTRL_Z){ // return to previous state if Ctrl + Z pressed
-            // stack action
+            if(stack.empty() == false){
+                user->increaseStamina();
+                StageNode tmp = stack.top();
+                changeBoard(x, y, tmp.x, tmp.y);
+                for(int i = 0; i < size; i++){ // Change STAGE with data in StageNode
+                    for(int j = 0; j < size; j++){
+                        STAGE[i][j]->setSymbol(tmp.stage[i][j]);          
+                    }
+                }
+                x = tmp.x;
+                y = tmp.y;
+                stack.pop();
+            }
+            continue;
         }
         if(!user->checkAlive()){ // if user try to move when stamina is 0 or less game over
             break;
@@ -136,7 +161,7 @@ int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be
             continue;
         }
         else{ // Action performed
-            // stack action
+            stack.push(StageNode{STAGE, x, y});
             user->decreaseStamina();
             if(encounter == ' ' || encounter == '@'){ // Player change position
                 STAGE[next_y][next_x]->setSymbol(' ');

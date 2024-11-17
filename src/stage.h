@@ -2,12 +2,8 @@
 #include "frameBuild.h"
 #include "player.h"
 #include "keyEvent.h"
-
-
-class StageNode{ // class for holding previous game state
-    public:
-        static const int size = 12;
-};
+#include "node.h"
+#include <stack>
 
 class Stage{
     private:
@@ -17,11 +13,14 @@ class Stage{
         int x = 1;
         int y = 1;
         // Functions
+        void buildSupport(int stamina, char stage[][size]);
         void buildStage(int stageFlag);
         void buildDummyStage();
         void changeBoard(int x, int y, int next_x, int next_y);
+        stack<StageNode> stack;
     public:
         Stage(int stageFlag);
         ~Stage();
         int play(Frame f, int stageFlag);       
 };
+
