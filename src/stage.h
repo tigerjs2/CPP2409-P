@@ -20,6 +20,7 @@ class Stage{
         void changeBoard(int x, int y, int next_x, int next_y);
         void warp(int next_x, int next_y);
         void undo(Player *user);
+        void unlock();
         stack<StageNode> stack;
     public:
         Stage(int stageFlag);

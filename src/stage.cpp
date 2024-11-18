@@ -127,7 +127,9 @@ void Stage::buildDummyStage(){
     STAGE[1][1] = new Player{100};
     STAGE[10][10] = new Entity{'@'};
 }
-
+Stage::Stage(int stageFlag){ // later according to flag, will build different stage map
+    buildStage(stageFlag);
+};
 // About GamePlay
 void Stage::warp(int next_x, int next_y){ // When player enter Activated portal player warp and portal vanish
     Portal *p = dynamic_cast<Portal*>(STAGE[next_y][next_x]);
@@ -160,9 +162,14 @@ void Stage::undo(Player *user){ // Restore previous state
         stack.pop();
     }
 }
-Stage::Stage(int stageFlag){ // later according to flag, will build different stage map
-    buildStage(stageFlag);
-};
+void Stage::unlock(){ // Remove every lock
+    for(int i = 1; i < size - 1; i++){
+        for(int j = 1; j < size - 1; j++){
+            if(STAGE[i][j]->getSymbol() == 'L')
+                STAGE[i][j]->setSymbol(' ');
+        }
+    }
+}
 int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be changed according to obstacles
     int clearFlag = 0; // if flag is 1 clear
     char encounter; // Entity that is which is on
@@ -208,7 +215,10 @@ int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be
         else{ // Action performed
             stack.push(StageNode{STAGE, x, y});
             user->decreaseStamina();
-            if(encounter == ' ' || encounter == '@'){ // Player change position
+            if(encounter == ' ' || encounter == '@' || encounter == 'K'){ // Player change position
+                if(encounter == 'K'){ // If player get key, unlock all the locks
+                    unlock();
+                }
                 STAGE[next_y][next_x]->setSymbol(' ');
                 changeBoard(x, y, next_x, next_y);
                 x = next_x;
@@ -228,10 +238,7 @@ int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be
             else if(encounter == 'W'){ // Player Enter Portal and teleport
                 warp(next_x, next_y);
             }
-            else if(encounter == 'K'){
-
-            }
         }
     }
-    return clearFlag;
+    return clearFlag; // 0 = fail, 1 = clear
 }
