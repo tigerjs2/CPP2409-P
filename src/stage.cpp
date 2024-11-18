@@ -94,6 +94,22 @@ void Stage::buildStage(int stageFlag){ // Load stage according to flag
                                    };
         buildSupport(30, stage3);
     }
+    else if(stageFlag == 4){
+        char stage4[size][size] = {{'#','#','#','#','#','#','#','#','#','#','#','#'},
+                                   {'#','P',' ',' ',' ',' ',' ',' ','L',' ','@','#'},
+                                   {'#','#','O','#',' ','#',' ',' ','L',' ',' ','#'},
+                                   {'#','#','#','#',' ','#',' ',' ','W','L','L','#'},
+                                   {'#',' ',' ',' ',' ','#',' ',' ','B',' ',' ','#'},
+                                   {'#','#',' ','#','#','#',' ','#',' ','#',' ','#'},
+                                   {'#',' ',' ',' ',' ',' ',' ','#',' ','#',' ','#'},
+                                   {'#','#','#','#','#','#','#','#',' ','#','B','#'},
+                                   {'#','O',' ','O',' ',' ',' ',' ','O','#','B','#'},
+                                   {'#','K','O','W','O','#',' ',' ',' ','#','B','#'},
+                                   {'#',' ',' ','O',' ',' ',' ','#',' ',' ',' ','#'},
+                                   {'#','#','#','#','#','#','#','#','#','#','#','#'}
+                                   };
+        buildSupport(36, stage4);
+    }
     else buildDummyStage();
 }
 void Stage::buildDummyStage(){
@@ -111,7 +127,9 @@ void Stage::buildDummyStage(){
     STAGE[1][1] = new Player{100};
     STAGE[10][10] = new Entity{'@'};
 }
-
+Stage::Stage(int stageFlag){ // later according to flag, will build different stage map
+    buildStage(stageFlag);
+};
 // About GamePlay
 void Stage::warp(int next_x, int next_y){ // When player enter Activated portal player warp and portal vanish
     Portal *p = dynamic_cast<Portal*>(STAGE[next_y][next_x]);
@@ -129,9 +147,29 @@ void Stage::changeBoard(int x, int y, int next_x, int next_y){ // activate when 
     STAGE[y][x] = STAGE[next_y][next_x];
     STAGE[next_y][next_x] = tmp;
 }
-Stage::Stage(int stageFlag){ // later according to flag, will build different stage map
-    buildStage(stageFlag);
-};
+void Stage::undo(Player *user){ // Restore previous state
+    if(stack.empty() == false){
+        user->increaseStamina();
+        StageNode tmp = stack.top();
+        changeBoard(x, y, tmp.x, tmp.y);
+        for(int i = 0; i < size; i++){ // Change STAGE with data in StageNode
+            for(int j = 0; j < size; j++){
+                STAGE[i][j]->setSymbol(tmp.stage[i][j]);          
+            }
+        }
+        x = tmp.x;
+        y = tmp.y;
+        stack.pop();
+    }
+}
+void Stage::unlock(){ // Remove every lock
+    for(int i = 1; i < size - 1; i++){
+        for(int j = 1; j < size - 1; j++){
+            if(STAGE[i][j]->getSymbol() == 'L')
+                STAGE[i][j]->setSymbol(' ');
+        }
+    }
+}
 int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be changed according to obstacles
     int clearFlag = 0; // if flag is 1 clear
     char encounter; // Entity that is which is on
@@ -153,19 +191,7 @@ int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be
 
         int action = KeyListener::getPlayerKey(); // get user action
         if(action == KeyListener::CTRL_Z){ // return to previous state if Ctrl + Z pressed
-            if(stack.empty() == false){
-                user->increaseStamina();
-                StageNode tmp = stack.top();
-                changeBoard(x, y, tmp.x, tmp.y);
-                for(int i = 0; i < size; i++){ // Change STAGE with data in StageNode
-                    for(int j = 0; j < size; j++){
-                        STAGE[i][j]->setSymbol(tmp.stage[i][j]);          
-                    }
-                }
-                x = tmp.x;
-                y = tmp.y;
-                stack.pop();
-            }
+            undo(user);
             continue;
         }
         if(!user->checkAlive()){ // if user try to move when stamina is 0 or less game over
@@ -183,13 +209,16 @@ int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be
             encounter = STAGE[next_y][--next_x]->getSymbol();
         else if(action == KeyListener::RIGHT)
             encounter = STAGE[next_y][++next_x]->getSymbol();
-        if(encounter == '#' || (encounter == 'W' && user->getStamina() % 2 == 0)){ // If player meets wall or try to enter disabled portal, no action performed
+        if(encounter == 'L' || encounter == '#' || (encounter == 'W' && user->getStamina() % 2 == 0)){ // If player meets wall or try to enter disabled portal, no action performed
             continue;
         }
         else{ // Action performed
             stack.push(StageNode{STAGE, x, y});
             user->decreaseStamina();
-            if(encounter == ' ' || encounter == '@'){ // Player change position
+            if(encounter == ' ' || encounter == '@' || encounter == 'K'){ // Player change position
+                if(encounter == 'K'){ // If player get key, unlock all the locks
+                    unlock();
+                }
                 STAGE[next_y][next_x]->setSymbol(' ');
                 changeBoard(x, y, next_x, next_y);
                 x = next_x;
@@ -206,10 +235,10 @@ int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be
                     changeBoard(next_x, next_y, next_x2, next_y2);
                 }
             }
-            else if(encounter == 'W'){
+            else if(encounter == 'W'){ // Player Enter Portal and teleport
                 warp(next_x, next_y);
             }
         }
     }
-    return clearFlag;
+    return clearFlag; // 0 = fail, 1 = clear
 }

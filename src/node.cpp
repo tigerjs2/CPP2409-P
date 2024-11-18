@@ -1,6 +1,6 @@
 #include "node.h"
 
-StageNode::StageNode(Entity ***stage, int x, int y){
+StageNode::StageNode(Entity ***stage, int x, int y){ 
     this->x = x;
     this->y = y;
     // deepcopy stage
