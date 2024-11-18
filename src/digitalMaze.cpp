@@ -2,12 +2,6 @@
 
 using namespace std;
 
-// Function for Main Page
-void printMainTitle(); // print title line
-void printOption(string s, bool selected); // print option line
-void printLine(int num); // print line made with '='
-void printTwoStageButton(int start, int size); // print button for selection page
-
 /*
 Page Flag Instructions
 0: Title Page
@@ -121,7 +115,8 @@ int main(){
             cout << "'K' : Key - Unlock the 'Lock' Entity" << endl;
             cout << "'#' : Wall - Can't break, push or kick. It's fixed" << endl;
             cout << "'W' : Warp Portal - Two object exist." << endl;
-            cout << "                    Touching one, warp to the other" << endl;
+            cout << "      Touching one, warp to the other" << endl;
+            cout << "      Portal must be activated at the moment you're touching" << endl;
             cout << "'B' : Breakable Box - You can break it by kicking it once" << endl;
             cout << "'O' : Pushable Rock - You can push it." << endl;
             cout << "                      You can kick it though it's blocked" << endl << endl;

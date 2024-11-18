@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
-#include <windows.h>
+#include <stdlib.h>
+#include "entity.h"
 
 using namespace std;
 // Class about displaying Pages
@@ -11,5 +12,5 @@ class Frame{
         void printConfirmAlert();
         void printOption(string name, bool selected, int num);
         void printButtonLine(int start, int selected);
-        void printStage(char board[][12], int size);
+        void printStage(Entity ***stage, int size, int stamina);
 };
