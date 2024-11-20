@@ -1,3 +1,7 @@
+/*
+This source code is the Main Part
+This Program only works on Microsoft Windows OS
+*/
 #include "stage.h"
 
 using namespace std;
