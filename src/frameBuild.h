@@ -5,7 +5,7 @@
 
 using namespace std;
 // Class about displaying Pages
-class Frame{
+class Frame {
     public:
         void PrintTitle(int num, string name);
         void PrintLine(int num);

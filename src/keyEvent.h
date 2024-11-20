@@ -1,7 +1,7 @@
 #pragma once
 #include <conio.h>
 // this class is interface of key event handling
-class KeyListener{
+class KeyListener {
     public:
         // ASCII Code of Direction Keys
         // Direction code return "224" and Direction ASCII code but while reading other lines 224 disappear

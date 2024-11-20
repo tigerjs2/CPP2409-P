@@ -1,4 +1,3 @@
-// Might be every enetities ancestor, or it will be thrown away
 #pragma once
 
 class Entity{
@@ -8,6 +7,6 @@ class Entity{
         Entity(){symbol = ' ';}
         Entity(char s){symbol = s;}
         virtual ~Entity() = default;
-        void setSymbol(char c) { symbol = c;}
-        char const getSymbol() {return symbol;}
+        void SetSymbol(char c) { symbol = c;}
+        char const GetSymbol() {return symbol;}
 };

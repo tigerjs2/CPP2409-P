@@ -1,7 +1,7 @@
 #pragma once
 #include "player.h"
 
-class StageNode{ // class for holding previous game state
+class StageNode { // class for holding previous game state
     public:
         static const int size = 12;
         char stage[size][size];

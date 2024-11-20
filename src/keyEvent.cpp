@@ -65,8 +65,8 @@ int KeyListener::GetPlayerKey() { // 4 Direction, Ctrl + Z
     }
     
 }
-int KeyListener::EnableEnter(){ // only Enter Allowed
-    while(1){
+int KeyListener::EnableEnter() { // only Enter Allowed
+    while(1) {
         int move = _getch();
         if (move == ENTER) return move;
     }

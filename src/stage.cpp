@@ -1,12 +1,7 @@
-/*
-Some Stage Doesn't have some Obstacles
-So checking Every obstacles for each stage might be useless
-As a result, each stage got different logic
-*/
 #include "stage.h"
-
 using namespace std;
-Stage::~Stage(){
+
+Stage::~Stage(){  // Stage was allocated Dynamically
     for(int i = 0; i < size; i++){
         for(int j = 0; j < size; j++){
             delete STAGE[i][j];
@@ -15,19 +10,20 @@ Stage::~Stage(){
     }
     delete [] STAGE;
 }
-void Stage::buildSupport(int stamina, char stage[][size]){
+void Stage::buildSupport(int stamina, char stage[][size]) {  // Supporter of BuildStage Function
     Portal *p = nullptr;
     for(int i = 0; i < size; i++){
             for(int j = 0; j < size; j++)
-                if(stage[i][j] == 'P')
+                if(stage[i][j] == 'P')  // allocate Player
                     STAGE[i][j] = new Player{stamina};
-                else if(stage[i][j] == 'W'){
-                    if(p == nullptr){
+                else if(stage[i][j] == 'W'){  // allocate Warp Portal
+                    if(p == nullptr){  // First Portal Created
                         p = new Portal{j, i};
                         STAGE[i][j] = p;
                     }
-                    else{
+                    else{  // Second Portal Created
                         Portal *q = new Portal(j, i);
+                        // Connect portals
                         p->connect(q);
                         q->connect(p);
                         STAGE[i][j] = q;
@@ -110,8 +106,10 @@ void Stage::buildStage(int stageFlag){ // Load stage according to flag
                                    };
         buildSupport(36, stage4);
     }
-    else buildDummyStage();
+    // else buildDummyStage();  // Not needed anymore
 }
+/*
+// Don't need this anymore
 void Stage::buildDummyStage(){
     for(int i = 0; i < size; i++){ // Fill with empty space
         for(int j = 0; j < size; j++){
@@ -127,17 +125,19 @@ void Stage::buildDummyStage(){
     STAGE[1][1] = new Player{100};
     STAGE[10][10] = new Entity{'@'};
 }
+*/
+
 Stage::Stage(int stageFlag){ // later according to flag, will build different stage map
     buildStage(stageFlag);
 };
 // About GamePlay
 void Stage::warp(int next_x, int next_y){ // When player enter Activated portal player warp and portal vanish
-    Portal *p = dynamic_cast<Portal*>(STAGE[next_y][next_x]);
+    Portal *p = dynamic_cast<Portal*>(STAGE[next_y][next_x]);  // Entered Portal
     // Player warp
     changeBoard(x, y, p->getConnectedX(), p->getConnectedY());
     // Portal Disappear
-    STAGE[y][x]->setSymbol(' ');
-    p->setSymbol(' ');
+    STAGE[y][x]->SetSymbol(' ');
+    p->SetSymbol(' ');
     // Update player's location
     x = p->getConnectedX();
     y = p->getConnectedY();
@@ -154,7 +154,7 @@ void Stage::undo(Player *user){ // Restore previous state
         changeBoard(x, y, tmp.x, tmp.y);
         for(int i = 0; i < size; i++){ // Change STAGE with data in StageNode
             for(int j = 0; j < size; j++){
-                STAGE[i][j]->setSymbol(tmp.stage[i][j]);          
+                STAGE[i][j]->SetSymbol(tmp.stage[i][j]);          
             }
         }
         x = tmp.x;
@@ -165,8 +165,8 @@ void Stage::undo(Player *user){ // Restore previous state
 void Stage::unlock(){ // Remove every lock
     for(int i = 1; i < size - 1; i++){
         for(int j = 1; j < size - 1; j++){
-            if(STAGE[i][j]->getSymbol() == 'L')
-                STAGE[i][j]->setSymbol(' ');
+            if(STAGE[i][j]->GetSymbol() == 'L')
+                STAGE[i][j]->SetSymbol(' ');
         }
     }
 }
@@ -201,37 +201,36 @@ int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be
         int next_x = x;
         int next_y = y;
         // Identity the object which player's gonna encounter
-        if(action == KeyListener::UP)
-            encounter = STAGE[--next_y][next_x]->getSymbol();
-        else if(action == KeyListener::DOWN)
-            encounter = STAGE[++next_y][next_x]->getSymbol();
-        else if(action == KeyListener::LEFT)
-            encounter = STAGE[next_y][--next_x]->getSymbol();
-        else if(action == KeyListener::RIGHT)
-            encounter = STAGE[next_y][++next_x]->getSymbol();
+        if(action == KeyListener::UP) --next_y;
+        else if(action == KeyListener::DOWN) ++next_y;
+        else if(action == KeyListener::LEFT) --next_x;
+        else if(action == KeyListener::RIGHT) ++next_x;
+        encounter = STAGE[next_y][next_x]->GetSymbol();
+        // Identify Action
         if(encounter == 'L' || encounter == '#' || (encounter == 'W' && user->getStamina() % 2 == 0)){ // If player meets wall or try to enter disabled portal, no action performed
+            // Action Failed
             continue;
         }
         else{ // Action performed
-            stack.push(StageNode{STAGE, x, y});
-            user->decreaseStamina();
+            stack.push(StageNode{STAGE, x, y});  // Before action save present state in stack
+            user->decreaseStamina();  // Every action cost stamina
             if(encounter == ' ' || encounter == '@' || encounter == 'K'){ // Player change position
                 if(encounter == 'K'){ // If player get key, unlock all the locks
                     unlock();
                 }
-                STAGE[next_y][next_x]->setSymbol(' ');
+                STAGE[next_y][next_x]->SetSymbol(' ');
                 changeBoard(x, y, next_x, next_y);
                 x = next_x;
                 y = next_y;
             }
             else if(encounter == 'B'){ // Break Obstacle
-                STAGE[next_y][next_x]->setSymbol(' ');
+                STAGE[next_y][next_x]->SetSymbol(' ');
             }
             else if(encounter == 'O'){ // Kick Obstacle
                 // position beyond 'O'
                 int next_x2 = 2 * next_x - x;
                 int next_y2 = 2 * next_y - y;
-                if(STAGE[next_y2][next_x2]->getSymbol() == ' '){ // Push Obstacle if space exist
+                if(STAGE[next_y2][next_x2]->GetSymbol() == ' '){ // Push Obstacle if space exist
                     changeBoard(next_x, next_y, next_x2, next_y2);
                 }
             }
