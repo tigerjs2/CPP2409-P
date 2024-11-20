@@ -115,15 +115,14 @@ int main(){
             cout << endl << "* Entities" << endl;
             cout << "'P' : Player" << endl;
             cout << "'#' : Wall - Can't break, push or kick. It's fixed" << endl;
-            cout << "'L' : Lock - Can't break, push or kick. Might be disposable" << endl;
+            cout << "'L' : Lock - Can't break, push or kick. But disposable" << endl;
             cout << "'K' : Key - Unlock the 'Lock' Entity" << endl;
-            cout << "'#' : Wall - Can't break, push or kick. It's fixed" << endl;
             cout << "'W' : Warp Portal - Two object exist." << endl;
             cout << "      Touching one, warp to the other" << endl;
             cout << "      Portal must be activated at the moment you're touching" << endl;
             cout << "'B' : Breakable Box - You can break it by kicking it once" << endl;
             cout << "'O' : Pushable Rock - You can push it." << endl;
-            cout << "                      You can kick it though it's blocked" << endl << endl;
+            cout << "                      You can kick even when you can't push" << endl << endl;
 
             cout.width(58);
             cout << "Enter : Return to Title...";
