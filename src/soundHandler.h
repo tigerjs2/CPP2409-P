@@ -1,18 +1,19 @@
 // It wasn't planned might be eliminated if fail to implement
 #pragma once
 #include <cstdlib>
+#include <mmsystem.h>  // 
 
 class Audio{
     public:
-        static void selectSound();
+        static void SelectSound();
         static void confirmSound();
 
-        static void moveSound();
-        static void kickSound();
-        static void breakSound();
-        static void warpSound();
-        static void unlockSound();
+        static void MoveSound();
+        static void KickSound();
+        static void BreakSound();
+        static void WarpSound();
+        static void UnlockSound();
         
-        static void clearSound();
-        static void failSound();
+        static void ClearSound();
+        static void FailSound();
 };

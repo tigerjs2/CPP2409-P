@@ -139,7 +139,7 @@ int main(){
             bool choice[3] = {true, false, false};
             int pointer = 0;
             int move = 0;
-            while(move != KeyListener::ENTER){
+            while(1){
                 system("cls");
                 if (gameresult == 0 || stageFlag == 4){ // Last stage can't go onto next stage
                     // try again option and back to stage selection option
@@ -163,24 +163,17 @@ int main(){
                     printer.PrintOption("Next Stage", choice[2], 1);
                     printer.PrintConfirmAlert();
                     move = KeyListener::TitleKey(); // determine action
+                    if(move == KeyListener::ENTER) break;  // confirm selection
+                    choice[pointer] = false;  // there's only selection change action left
                     if(move == KeyListener::UP){
-                        choice[pointer] = false;
-                        if(pointer == 0){
-                            choice[pointer = 2] = true;
-                        }
-                        else{
-                            choice[--pointer] = true;
-                        }
+                        if(pointer == 0) pointer = 2;
+                        else --pointer;
                     }
                     else if(move == KeyListener::DOWN){
-                        choice[pointer] = false;
-                        if(pointer == 2){
-                            choice[pointer = 0] = true;
-                        }
-                        else{
-                            choice[++pointer] = true;
-                        }
-                    }      
+                        if(pointer == 2) pointer = 0;
+                        else ++pointer;
+                    }
+                    choice[pointer] = true;  
                 }          
             }
             // At this point pageFlag is 3, therefore only choice[1] need to change the flag
