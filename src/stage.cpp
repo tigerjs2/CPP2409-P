@@ -179,9 +179,9 @@ int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be
         user = dynamic_cast<Player*>(STAGE[y][x]);
         // refresh displayed screen
         system("cls");
-        f.printTitle(12, title[stageFlag]);
+        f.PrintTitle(12, title[stageFlag]);
         cout << endl;
-        f.printStage(STAGE, size, user->getStamina());
+        f.PrintStage(STAGE, size, user->getStamina());
         cout << "Stamina : " << user->getStamina() << endl;
 
         if(encounter == '@'){ // if reaching goal clear!
@@ -189,7 +189,7 @@ int Stage::play(Frame f, int stageFlag){ // Default Logic of game play, might be
             break;
         }
 
-        int action = KeyListener::getPlayerKey(); // get user action
+        int action = KeyListener::GetPlayerKey(); // get user action
         if(action == KeyListener::CTRL_Z){ // return to previous state if Ctrl + Z pressed
             undo(user);
             continue;

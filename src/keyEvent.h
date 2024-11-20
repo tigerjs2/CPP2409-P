@@ -12,8 +12,8 @@ class KeyListener{
         static const int ENTER = 13; // ASCII Code of Enter
         static const int CTRL_Z = 26; // Ctrl + Z value
 
-        static int getPlayerKey(); // method for game play
-        static int titleKey(); // method for option selection in Main page
-        static int stageSelectionKey(); // for stage selection page
-        static int enableEnter();
+        static int GetPlayerKey(); // method for game play
+        static int TitleKey(); // method for option selection in Main page
+        static int StageSelectionKey(); // for stage selection page
+        static int EnableEnter();
 };

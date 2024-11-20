@@ -25,15 +25,15 @@ int main(){
             while(true){
                 // Display Changed State
                 system("cls");
-                printer.printTitle(26, "Digital Maze");
-                printer.printOption("Select Stage", selected[0], 7);
-                printer.printOption("Instructions", selected[1], 7);
-                printer.printOption("    Exit    ", selected[2], 7);
-                printer.printConfirmAlert();
+                printer.PrintTitle(26, "Digital Maze");
+                printer.PrintOption("Select Stage", selected[0], 7);
+                printer.PrintOption("Instructions", selected[1], 7);
+                printer.PrintOption("    Exit    ", selected[2], 7);
+                printer.PrintConfirmAlert();
                 cout << endl << endl;
-                printer.printLine(26);
+                printer.PrintLine(26);
 
-                int move = KeyListener::titleKey(); // determine action
+                int move = KeyListener::TitleKey(); // determine action
                 if(move == KeyListener::ENTER) break; // Selection Determined
                 // Change Selection According to Input
                 // if not Confirming the move is option changing
@@ -61,15 +61,15 @@ int main(){
             while(true){
                 system("cls");
                 // Print title
-                printer.printTitle(24, "Select Stage");
+                printer.PrintTitle(24, "Select Stage");
                 // button
-                printer.printButtonLine(1, stageFlag);
-                printer.printButtonLine(3, stageFlag);
+                printer.PrintButtonLine(1, stageFlag);
+                printer.PrintButtonLine(3, stageFlag);
                 // change code under 
-                printer.printOption("Back to Title", !stageFlag, 2);
-                printer.printConfirmAlert();
+                printer.PrintOption("Back to Title", !stageFlag, 2);
+                printer.PrintConfirmAlert();
 
-                int selected = KeyListener::stageSelectionKey();
+                int selected = KeyListener::StageSelectionKey();
                 if(selected == 13) break; // confirm selection
                 else if(stageFlag == 0) stageFlag = 3; // When pointer is on back to title, next selection is always stage 3
                 else if(selected == KeyListener::UP){
@@ -101,7 +101,7 @@ int main(){
             system("cls");
             // most code in this line will goto Frame Class
             // Print title
-            printer.printTitle(58, "Instructions");
+            printer.PrintTitle(58, "Instructions");
             // How to Play
             cout << "* Movement" << endl;
             cout << "   W          ^" << endl;
@@ -124,7 +124,7 @@ int main(){
             cout.width(58);
             cout << "Enter : Return to Title...";
             
-            KeyListener::enableEnter(); // Loof until Pressing Enter
+            KeyListener::EnableEnter(); // Loof until Pressing Enter
             pageFlag = 0; // Return to Main Page
         }
         // Actual Game Playing Page
@@ -141,25 +141,25 @@ int main(){
                 if (gameresult == 0 || stageFlag == 4){ // Last stage can't go onto next stage
                     // try again option and back to stage selection option
                     if(gameresult == 0)
-                        printer.printTitle(14 ,"Fail..");
+                        printer.PrintTitle(14 ,"Fail..");
                     else
-                        printer.printTitle(14, "Clear!");
-                    printer.printOption("Try Again?", choice[0], 1);
-                    printer.printOption("Map Select", choice[1], 1);
-                    printer.printConfirmAlert();
-                    move = KeyListener::titleKey(); // determine action
+                        printer.PrintTitle(14, "Clear!");
+                    printer.PrintOption("Try Again?", choice[0], 1);
+                    printer.PrintOption("Map Select", choice[1], 1);
+                    printer.PrintConfirmAlert();
+                    move = KeyListener::TitleKey(); // determine action
                     if(move != KeyListener::ENTER){ // Since only two options it will toggle
                         choice[0] = !choice[0];
                         choice[1] = !choice[1]; 
                     }
                 }
                 else{ // if game clear
-                    printer.printTitle(14, "Clear!");
-                    printer.printOption("Try Again?", choice[0], 1);
-                    printer.printOption("Map Select", choice[1], 1);
-                    printer.printOption("Next Stage", choice[2], 1);
-                    printer.printConfirmAlert();
-                    move = KeyListener::titleKey(); // determine action
+                    printer.PrintTitle(14, "Clear!");
+                    printer.PrintOption("Try Again?", choice[0], 1);
+                    printer.PrintOption("Map Select", choice[1], 1);
+                    printer.PrintOption("Next Stage", choice[2], 1);
+                    printer.PrintConfirmAlert();
+                    move = KeyListener::TitleKey(); // determine action
                     if(move == KeyListener::UP){
                         choice[pointer] = false;
                         if(pointer == 0){

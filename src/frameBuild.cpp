@@ -1,20 +1,20 @@
 #include "frameBuild.h"
 
-void Frame::printLine(int num){ // print '=' 'num' times
+void Frame::PrintLine(int num){ // print '=' 'num' times
     for(int i = 0; i < num; i++)
         cout << "=";
     cout << endl;
 }
-void Frame::printTitle(int num, string name){ // Print Page Title
-    printLine(num);
+void Frame::PrintTitle(int num, string name){ // Print Page Title
+    PrintLine(num);
     cout.width((num + name.length()) / 2);
     cout << name << endl;
-    printLine(num);
+    PrintLine(num);
 }
-void Frame::printConfirmAlert(){ // Notify user to press Enter
+void Frame::PrintConfirmAlert(){ // Notify user to press Enter
     cout << endl << endl << "Enter : Confirm";
 }
-void Frame::printOption(string s, bool selected, int num){ // Print Option line
+void Frame::PrintOption(string s, bool selected, int num){ // Print Option line
     cout << endl;
     cout.width(num);
     if (selected == true){
@@ -25,7 +25,7 @@ void Frame::printOption(string s, bool selected, int num){ // Print Option line
     }
 }
 
-void Frame::printButtonLine(int start, int selected){ // Print two button on stage selection page
+void Frame::PrintButtonLine(int start, int selected){ // Print two button on stage selection page
     cout << endl;
     for(int i = 0; i < 2; i++){
         cout.width(8);
@@ -52,7 +52,7 @@ void Frame::printButtonLine(int start, int selected){ // Print two button on sta
     cout << endl;   
 }
 
-void Frame::printStage(Entity ***stage, int size, int stamina){
+void Frame::PrintStage(Entity ***stage, int size, int stamina){
     for(int i = 0; i < size; i++){
         for(int j = 0; j < size; j++){
             if(stamina % 2 == 1 && stage[i][j]->getSymbol() == 'W') // later change this with Warp->isActivate
