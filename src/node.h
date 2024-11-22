@@ -3,8 +3,8 @@
 
 class StageNode { // class for holding previous game state
     public:
-        static const int size = 12;
-        char stage[size][size];
+        static const int SIZE = 12;
+        char stage[SIZE][SIZE];
         int x;
         int y;
         StageNode();

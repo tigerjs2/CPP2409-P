@@ -7,6 +7,5 @@ bool Player::CheckAlive() { // check remaining stamina and if lower than 0 retur
         return true;
 }
 int Player::GetStamina() { return stamina; }
-void Player::SetStamina(int n) { stamina = n; }
 void Player::IncreaseStamina() { stamina++; }
 void Player::DecreaseStamina() { stamina--; } // might be used if any harmful obstacles are designed, at this point only for movement

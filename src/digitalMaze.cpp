@@ -1,6 +1,7 @@
 /*
 This source code is the Main Part
 This Program only works on Microsoft Windows OS
+If you wanna play on Linux Distribution, change every system("cls") into system("clear")
 */
 #include "stage.h"
 
@@ -43,17 +44,14 @@ int main(){
                 // if not Confirming the move is option changing
                 selected[option] = false;
                 if(move == KeyListener::UP){
-                    if(option == 0)
-                        selected[option = 2] = true;
-                    else
-                        selected[--option] = true;
+                    if(option == 0) option = 2;
+                    else option--;
                 }
                 else if(move == KeyListener::DOWN){
-                    if(option == 2)
-                        selected[option = 0] = true;
-                    else
-                        selected[++option] = true;
+                    if(option == 2) option = 0;
+                    else option++;
                 }
+                selected[option] = true;
             }
             if(option == 2)
                 page_flag = CENTINEL; // Terminate Game
@@ -74,7 +72,7 @@ int main(){
                 printer.PrintConfirmAlert();
 
                 int selected = KeyListener::StageSelectionKey();
-                if(selected == 13) break; // confirm selection
+                if(selected == KeyListener::ENTER) break; // confirm selection
                 else if(stage_flag == 0) stage_flag = 3; // When pointer is on back to title, next selection is always stage 3
                 else if(selected == KeyListener::UP){
                     if(stage_flag / 3 == 0) stage_flag += 2;
@@ -134,11 +132,11 @@ int main(){
         else if(page_flag == 3){
             Stage s{stage_flag};
             // this logic will be done after at least stage 1 is built
-            int gameresult = s.play(printer, stage_flag);
+            int gameresult = s.Play(printer, stage_flag);
             // Stage End, Give Multiple Choice
             bool choice[3] = {true, false, false};
             int pointer = 0;
-            int move = 0;
+            int move;
             while(1){
                 system("cls");
                 if (gameresult == 0 || stage_flag == 4){ // Last stage can't go onto next stage
@@ -151,6 +149,7 @@ int main(){
                     printer.PrintOption("Map Select", choice[1], 1);
                     printer.PrintConfirmAlert();
                     move = KeyListener::TitleKey(); // determine action
+                    if(move == KeyListener::ENTER) break;  // confirm selection
                     if(move != KeyListener::ENTER){ // Since only two options it will toggle
                         choice[0] = !choice[0];
                         choice[1] = !choice[1]; 

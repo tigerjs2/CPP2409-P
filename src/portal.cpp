@@ -4,15 +4,9 @@ Portal::Portal(int x, int y):Entity('W'){
     this->x = x;
     this->y = y;
 }
-void Portal::connect(Portal *p){
+void Portal::Connect(Portal *p){
     next_x = p->x;
     next_y = p->y;
 }
-bool Portal::isActivate(){
-    return activate;
-}
-void Portal::toggle(){
-    activate = !activate;
-}
-int Portal::getConnectedX(){ return next_x;}
-int Portal::getConnectedY(){ return next_y;}
+int Portal::GetConnectedX(){ return next_x;}
+int Portal::GetConnectedY(){ return next_y;}

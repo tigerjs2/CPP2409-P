@@ -9,7 +9,6 @@ class Player : public Entity{
         Player(int s):Entity('P'){ stamina = s; }
         bool CheckAlive(); // check remaining stamina
         int GetStamina();
-        void SetStamina(int n);
         void DecreaseStamina();
         void IncreaseStamina();
 };
