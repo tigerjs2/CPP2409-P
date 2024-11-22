@@ -27,8 +27,6 @@ void Stage::BuildSupport(int stamina, char stage[][SIZE]) {  // Supporter of Bui
                         p->Connect(q);
                         q->Connect(p);
                         this->stage[i][j] = q;
-                        p = nullptr;
-                        q = nullptr;
                     }
                 }
                 else
@@ -127,7 +125,7 @@ void Stage::buildDummyStage(){
 }
 */
 
-Stage::Stage(int stage_flag){ // later according to flag, will build different stage map
+Stage::Stage(int stage_flag){ // according to flag, build different stage map
     BuildStage(stage_flag);
 };
 
@@ -171,8 +169,8 @@ void Stage::Unlock(){ // Remove every lock
         }
     }
 }
-int Stage::Play(Frame f, int stageFlag){ // Default Logic of game play, might be changed according to obstacles
-    int clearFlag = 0; // if flag is 1 clear
+int Stage::Play(Frame f, int stage_flag){ // Default Logic of game play, might be changed according to obstacles
+    int clear_flag = 0; // if flag is 1 clear
     char encounter; // Entity that is which is on
     Player * user;
     string title[5] = {"Stage0", "Stage1", "Stage2", "Stage3", "Stage4"};
@@ -180,13 +178,13 @@ int Stage::Play(Frame f, int stageFlag){ // Default Logic of game play, might be
         user = dynamic_cast<Player*>(stage[y][x]);
         // refresh displayed screen
         system("cls");
-        f.PrintTitle(12, title[stageFlag]);
+        f.PrintTitle(12, title[stage_flag]);
         cout << endl;
         f.PrintStage(stage, SIZE, user->GetStamina());
         cout << "Stamina : " << user->GetStamina() << endl;
 
         if(encounter == '@'){ // if reaching goal clear!
-            clearFlag = 1;
+            clear_flag = 1;
             break;
         }
 
@@ -240,5 +238,5 @@ int Stage::Play(Frame f, int stageFlag){ // Default Logic of game play, might be
             }
         }
     }
-    return clearFlag; // 0 = fail, 1 = clear
+    return clear_flag; // 0 = fail, 1 = clear
 }
