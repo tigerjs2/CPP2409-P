@@ -7,9 +7,9 @@ class Player : public Entity{
     public:
         Player(){ stamina = 0; } // Default for make at Least Trash Instance
         Player(int s):Entity('P'){ stamina = s; }
-        bool checkAlive(); // check remaining stamina
-        int getStamina();
-        void setStamina(int n);
-        void decreaseStamina();
-        void increaseStamina();
+        bool CheckAlive(); // check remaining stamina
+        int GetStamina();
+        void SetStamina(int n);
+        void DecreaseStamina();
+        void IncreaseStamina();
 };

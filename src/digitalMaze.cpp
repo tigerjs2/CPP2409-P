@@ -17,12 +17,12 @@ Page Flag Instructions
 int main(){
     Frame printer;
     const int CENTINEL = -999; // When pageFlag is CENTINEL shutdown the game
-    int pageFlag = 0; // Starting Page
-    int stageFlag = 1; // Selected Stage
+    int page_flag = 0; // Starting Page
+    int stage_flag = 1; // Selected Stage
     
-    while(pageFlag != CENTINEL){
+    while(page_flag != CENTINEL){
         // Display Main Page
-        if(pageFlag == 0){
+        if(page_flag == 0){
             const int OPTION_SIZE = 3;
             int option = 0; // option pointer, this will get 0~2
             bool selected[OPTION_SIZE] = {true, false, false}; // selected option's value is true
@@ -56,52 +56,52 @@ int main(){
                 }
             }
             if(option == 2)
-                pageFlag = CENTINEL; // Terminate Game
+                page_flag = CENTINEL; // Terminate Game
             else
-                pageFlag = option + 1; // Move onto Selected Page
+                page_flag = option + 1; // Move onto Selected Page
         }
         // Display Selection Page
-        else if(pageFlag == 1){
+        else if(page_flag == 1){
             while(true){
                 system("cls");
                 // Print title
                 printer.PrintTitle(24, "Select Stage");
                 // button
-                printer.PrintButtonLine(1, stageFlag);
-                printer.PrintButtonLine(3, stageFlag);
+                printer.PrintButtonLine(1, stage_flag);
+                printer.PrintButtonLine(3, stage_flag);
                 // change code under 
-                printer.PrintOption("Back to Title", !stageFlag, 2);
+                printer.PrintOption("Back to Title", !stage_flag, 2);
                 printer.PrintConfirmAlert();
 
                 int selected = KeyListener::StageSelectionKey();
                 if(selected == 13) break; // confirm selection
-                else if(stageFlag == 0) stageFlag = 3; // When pointer is on back to title, next selection is always stage 3
+                else if(stage_flag == 0) stage_flag = 3; // When pointer is on back to title, next selection is always stage 3
                 else if(selected == KeyListener::UP){
-                    if(stageFlag / 3 == 0) stageFlag += 2;
-                    else stageFlag -= 2;
+                    if(stage_flag / 3 == 0) stage_flag += 2;
+                    else stage_flag -= 2;
                 }
                 else if(selected == KeyListener::DOWN){
-                    if(stageFlag == 3) stageFlag = 0;
-                    else if(stageFlag == 4) stageFlag -= 2;
-                    else stageFlag += 2;
+                    if(stage_flag == 3) stage_flag = 0;
+                    else if(stage_flag == 4) stage_flag -= 2;
+                    else stage_flag += 2;
                 }
                 else if(selected == KeyListener::LEFT){
-                    if(stageFlag % 2 == 1) stageFlag++;
-                    else stageFlag--;
+                    if(stage_flag % 2 == 1) stage_flag++;
+                    else stage_flag--;
                 }
                 else if(selected == KeyListener::RIGHT){
-                    if(stageFlag % 2 == 0) stageFlag--;
-                    else stageFlag++;
+                    if(stage_flag % 2 == 0) stage_flag--;
+                    else stage_flag++;
                 }
             }
             // If stage is selected go onto page 3, else go onto page 0
-            if(stageFlag == 0)
-                pageFlag = 0;
+            if(stage_flag == 0)
+                page_flag = 0;
             else
-                pageFlag = 3;
+                page_flag = 3;
         }
         // Display Instructions
-        else if(pageFlag == 2){
+        else if(page_flag == 2){
             system("cls");
             // most code in this line will goto Frame Class
             // Print title
@@ -128,20 +128,20 @@ int main(){
             cout << "Enter : Return to Title...";
             
             KeyListener::EnableEnter(); // Loof until Pressing Enter
-            pageFlag = 0; // Return to Main Page
+            page_flag = 0; // Return to Main Page
         }
         // Actual Game Playing Page
-        else if(pageFlag == 3){
-            Stage s{stageFlag};
+        else if(page_flag == 3){
+            Stage s{stage_flag};
             // this logic will be done after at least stage 1 is built
-            int gameresult = s.play(printer, stageFlag);
+            int gameresult = s.play(printer, stage_flag);
             // Stage End, Give Multiple Choice
             bool choice[3] = {true, false, false};
             int pointer = 0;
             int move = 0;
             while(1){
                 system("cls");
-                if (gameresult == 0 || stageFlag == 4){ // Last stage can't go onto next stage
+                if (gameresult == 0 || stage_flag == 4){ // Last stage can't go onto next stage
                     // try again option and back to stage selection option
                     if(gameresult == 0)
                         printer.PrintTitle(14 ,"Fail..");
@@ -178,9 +178,9 @@ int main(){
             }
             // At this point pageFlag is 3, therefore only choice[1] need to change the flag
             if(choice[1]) 
-                pageFlag = 1; // go onto selection page
+                page_flag = 1; // go onto selection page
             else if(choice[2])
-                ++stageFlag; // go onto next stage
+                ++stage_flag; // go onto next stage
             
         }
     }
