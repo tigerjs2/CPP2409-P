@@ -10,6 +10,7 @@
         "deque": "cpp",
         "stack": "cpp",
         "type_traits": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "iosfwd": "cpp"
     }
 }

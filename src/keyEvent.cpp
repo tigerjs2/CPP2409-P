@@ -41,7 +41,7 @@ int KeyListener::StageSelectionKey() { // Enable Enter, 4 Direction
     }
     
 }
-int KeyListener::GetPlayerKey() { // 4 Direction, Ctrl + Z
+int KeyListener::GetPlayerKey() { // 4 Direction, Ctrl + Z, 'b', 'r'
     while(1){
         // get key input until meet up, down or ENTER
         int move = _getch();
@@ -51,6 +51,8 @@ int KeyListener::GetPlayerKey() { // 4 Direction, Ctrl + Z
             case UP:
             case DOWN:
             case CTRL_Z:
+            case 'b':
+            case 'r':
                 return move;
             case 'w':
                 return UP;

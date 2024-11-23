@@ -133,6 +133,11 @@ int main(){
             Stage s{stage_flag};
             // this logic will be done after at least stage 1 is built
             int gameresult = s.Play(printer, stage_flag);
+            if(gameresult == 2) continue; // Reset this Stage
+            else if(gameresult == 3) {
+                page_flag = 1;
+                continue;
+            }
             // Stage End, Give Multiple Choice
             bool choice[3] = {true, false, false};
             int pointer = 0;

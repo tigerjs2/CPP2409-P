@@ -182,7 +182,9 @@ int Stage::Play(Frame f, int stage_flag){ // Default Logic of game play, might b
         cout << endl;
         f.PrintStage(stage, SIZE, user->GetStamina());
         cout << "Stamina : " << user->GetStamina() << endl;
-
+        cout << endl << "Ctrl + z : Undo";
+        cout << endl << "r : Reset Stage";
+        cout << endl << "b : Back to Selection";
         if(encounter == '@'){ // if reaching goal clear!
             clear_flag = 1;
             break;
@@ -192,6 +194,14 @@ int Stage::Play(Frame f, int stage_flag){ // Default Logic of game play, might b
         if(action == KeyListener::CTRL_Z){ // return to previous state if Ctrl + Z pressed
             Undo(user);
             continue;
+        }
+        else if(action == 'r') { // restart this stage
+            clear_flag = 2;
+            break;
+        }
+        else if(action == 'b') { // back to stage selection
+            clear_flag = 3;
+            break;
         }
         if(!user->CheckAlive()){ // if user try to move when stamina is 0 or less game over
             break;
@@ -238,5 +248,5 @@ int Stage::Play(Frame f, int stage_flag){ // Default Logic of game play, might b
             }
         }
     }
-    return clear_flag; // 0 = fail, 1 = clear
+    return clear_flag; // 0 = fail, 1 = clear, 2 = restart stage, 3 = back to stage selection
 }
