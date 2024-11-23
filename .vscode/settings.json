@@ -9,6 +9,7 @@
         "array": "cpp",
         "deque": "cpp",
         "stack": "cpp",
-        "type_traits": "cpp"
+        "type_traits": "cpp",
+        "fstream": "cpp"
     }
 }

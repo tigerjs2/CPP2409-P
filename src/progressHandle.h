@@ -3,3 +3,15 @@
 // To prevent changing the file without playing game this class will encode & decode the file content
 #pragma once
 #include <fstream>
+#include <cstdlib>
+#include <string>
+
+using namespace std;
+
+class Progress {
+    public:
+        int Get();
+        void Save(int opened);
+        int Encode(int val);
+        int Decode(int code);
+};
