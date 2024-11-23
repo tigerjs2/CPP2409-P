@@ -149,10 +149,9 @@ int main(){
                     printer.PrintOption("Map Select", choice[1], 1);
                     printer.PrintConfirmAlert();
                     move = KeyListener::TitleKey(); // determine action
-                    if(move == KeyListener::ENTER) break;  // confirm selection
                     if(move != KeyListener::ENTER){ // Since only two options it will toggle
                         choice[0] = !choice[0];
-                        choice[1] = !choice[1]; 
+                        choice[1] = !choice[1];
                     }
                 }
                 else{ // if game clear
@@ -162,7 +161,6 @@ int main(){
                     printer.PrintOption("Next Stage", choice[2], 1);
                     printer.PrintConfirmAlert();
                     move = KeyListener::TitleKey(); // determine action
-                    if(move == KeyListener::ENTER) break;  // confirm selection
                     choice[pointer] = false;  // there's only selection change action left
                     if(move == KeyListener::UP){
                         if(pointer == 0) pointer = 2;
@@ -173,7 +171,8 @@ int main(){
                         else ++pointer;
                     }
                     choice[pointer] = true;  
-                }          
+                }
+                if(move == KeyListener::ENTER) break;  // confirm selection    
             }
             // At this point pageFlag is 3, therefore only choice[1] need to change the flag
             if(choice[1]) 
