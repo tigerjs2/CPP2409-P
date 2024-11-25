@@ -11,7 +11,8 @@
                 // "${file}",
                 "${fileDirname}\\**.cpp",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+                "${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "-lwinmm" // For SoundPlay function
             ],
             "options": {
                 "cwd": "${fileDirname}"
