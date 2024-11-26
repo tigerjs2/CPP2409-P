@@ -9,8 +9,11 @@ class Sound {
         static void Select();
         static void Confirm();
         static void Move();
+        static void MoveFail();
         static void Kick();
         static void Break();
         static void Warp();
         static void Unlock();
+        static void Clear();
+        static void Fail();
 };
