@@ -8,7 +8,8 @@ int Progress::Decode(int code) {
     return code / 9 - 3;
 }
 
-int Progress::Get() {
+int Progress::Get() {  // Get Previous Progress
+    // Relative Path of File and Directory
     LPCTSTR save = _T("save");
     LPCTSTR save_dat = _T("save\\savedat.dat");
     ifstream f;
@@ -32,11 +33,11 @@ int Progress::Get() {
     }
 }
 
-void Progress::Save(int opened) {
-    int n = Encode(opened);
+void Progress::Save(int opened) {  // Save clear progress
+    int n = Encode(opened);  // Encode opened
     fstream f;
     f.open("save/savedat.dat");
     f.clear();
-    f << to_string(n);
+    f << to_string(n);  // Save encoded data
     f.close();
 }

@@ -1,7 +1,6 @@
 /*
 This source code is the Main Part
 This Program only works on Microsoft Windows OS
-If you wanna play on Linux Distribution, change every system("cls") into system("clear")
 */
 #include "stage.h"
 
@@ -16,6 +15,7 @@ Page Flag Instructions
 */
 
 int main(){
+    int opened;  // Opened Stage
     Frame printer;
     const int CENTINEL = -999; // When pageFlag is CENTINEL shutdown the game
     int page_flag = 0; // Starting Page
