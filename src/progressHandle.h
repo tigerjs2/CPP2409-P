@@ -5,6 +5,10 @@
 #include <fstream>
 #include <cstdlib>
 #include <string>
+#include <windows.h>
+#include <shlwapi.h>
+#pragma comment(lib, "shlwapi.lib")
+#include <tchar.h>
 
 using namespace std;
 
