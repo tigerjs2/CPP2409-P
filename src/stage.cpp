@@ -168,6 +168,7 @@ void Stage::Unlock(){ // Remove every lock
                 stage[i][j]->SetSymbol(' ');
         }
     }
+    Sound::Unlock();
 }
 int Stage::Play(Frame f, int stage_flag){ // Default Logic of game play, might be changed according to obstacles
     int clear_flag = 0; // if flag is 1 clear
@@ -218,6 +219,7 @@ int Stage::Play(Frame f, int stage_flag){ // Default Logic of game play, might b
         // Identify Action
         if(encounter == 'L' || encounter == '#' || (encounter == 'W' && user->GetStamina() % 2 == 0)){ // If player meets wall or try to enter disabled portal, no action performed
             // Action Failed
+            Sound::MoveFail();
             continue;
         }
         else{ // Action performed
@@ -231,9 +233,11 @@ int Stage::Play(Frame f, int stage_flag){ // Default Logic of game play, might b
                 ChangeBoard(x, y, next_x, next_y);
                 x = next_x;
                 y = next_y;
+                Sound::Move();
             }
             else if(encounter == 'B'){ // Break Obstacle
                 stage[next_y][next_x]->SetSymbol(' ');
+                Sound::Break();
             }
             else if(encounter == 'O'){ // Kick Obstacle
                 // position beyond 'O'
@@ -242,9 +246,11 @@ int Stage::Play(Frame f, int stage_flag){ // Default Logic of game play, might b
                 if(stage[next_y2][next_x2]->GetSymbol() == ' '){ // Push Obstacle if space exist
                     ChangeBoard(next_x, next_y, next_x2, next_y2);
                 }
+                Sound::Kick();
             }
             else if(encounter == 'W'){ // Player Enter Portal and teleport
                 Warp(next_x, next_y);
+                Sound::Warp();
             }
         }
     }

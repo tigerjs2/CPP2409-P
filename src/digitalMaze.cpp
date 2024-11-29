@@ -39,7 +39,10 @@ int main(){
                 printer.PrintLine(26);
 
                 int move = KeyListener::TitleKey(); // determine action
-                if(move == KeyListener::ENTER) break; // Selection Determined
+                if(move == KeyListener::ENTER){  // confirm selection
+                    Sound::Confirm();
+                    break;
+                }
                 // Change Selection According to Input
                 // if not Confirming the move is option changing
                 selected[option] = false;
@@ -52,6 +55,7 @@ int main(){
                     else option++;
                 }
                 selected[option] = true;
+                Sound::Select();
             }
             if(option == 2)
                 page_flag = CENTINEL; // Terminate Game
@@ -72,7 +76,10 @@ int main(){
                 printer.PrintConfirmAlert();
 
                 int selected = KeyListener::StageSelectionKey();
-                if(selected == KeyListener::ENTER) break; // confirm selection
+                if(selected == KeyListener::ENTER){  // confirm selection
+                    Sound::Confirm();
+                    break;
+                }
                 else if(stage_flag == 0) stage_flag = 3; // When pointer is on back to title, next selection is always stage 3
                 else if(selected == KeyListener::UP){
                     if(stage_flag / 3 == 0) stage_flag += 2;
@@ -91,6 +98,7 @@ int main(){
                     if(stage_flag % 2 == 0) stage_flag--;
                     else stage_flag++;
                 }
+                Sound::Select();
             }
             // If stage is selected go onto page 3, else go onto page 0
             if(stage_flag == 0)
@@ -126,6 +134,7 @@ int main(){
             cout << "Enter : Return to Title...";
             
             KeyListener::EnableEnter(); // Loof until Pressing Enter
+            Sound::Confirm();
             page_flag = 0; // Return to Main Page
         }
         // Actual Game Playing Page
@@ -138,6 +147,8 @@ int main(){
                 page_flag = 1;
                 continue;
             }
+            else if(gameresult == 0) Sound::Fail();
+            else if(gameresult == 1) Sound::Clear();
             // Stage End, Give Multiple Choice
             bool choice[3] = {true, false, false};
             int pointer = 0;
@@ -177,7 +188,11 @@ int main(){
                     }
                     choice[pointer] = true;  
                 }
-                if(move == KeyListener::ENTER) break;  // confirm selection    
+                if(move == KeyListener::ENTER) {
+                    Sound::Confirm();
+                    break;  // confirm selection
+                }
+                Sound::Select();
             }
             // At this point pageFlag is 3, therefore only choice[1] need to change the flag
             if(choice[1]) 

@@ -4,6 +4,7 @@
 #include "portal.h"
 #include "keyEvent.h"
 #include "node.h"
+#include "sound.h"
 #include <stack>
 
 class Stage{
