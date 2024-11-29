@@ -204,9 +204,7 @@ int Stage::Play(Frame f, int stage_flag){ // Default Logic of game play, might b
             clear_flag = 3;
             break;
         }
-        if(!user->CheckAlive()){ // if user try to move when stamina is 0 or less game over
-            break;
-        }
+        if(!user->CheckAlive()) break;  // if user try to move when stamina is 0 or less game over
         // Change stage according to player's movement
         int next_x = x;
         int next_y = y;
