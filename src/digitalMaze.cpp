@@ -85,23 +85,14 @@ int main(){
                     stage_flag = !stage_flag;
                 }
                 else if(opened == 2){  // stage 1 & 2 allowed
-                    if(stage_flag == 0 || selected == KeyListener::UP || selected == KeyListener::DOWN) stage_flag = !stage_flag;
-                    else if(selected == KeyListener::LEFT){
-                        if(stage_flag % 2 == 1) stage_flag++;
-                        else stage_flag--;
-                    }
-                    else if(selected == KeyListener::RIGHT){
-                        if(stage_flag % 2 == 0) stage_flag--;
-                        else stage_flag++;
-                    }
+                    if(stage_flag == 0 || selected == KeyListener::UP || selected == KeyListener::DOWN)
+                        stage_flag = !stage_flag;
+                    else if(selected == KeyListener::LEFT || selected == KeyListener::RIGHT)
+                        stage_flag += 2 * (stage_flag % 2) - 1;
                 }
                 else if(opened == 3){  // stage 1, 2 & 3 allowed
-                    if(selected == KeyListener::LEFT && stage_flag != 3 && stage_flag != 0){
-                        stage_flag = stage_flag - 1 + 2 * (stage_flag % 2);
-                    }
-                    else if(selected == KeyListener::RIGHT && stage_flag != 3 && stage_flag != 0){
-                        stage_flag = stage_flag - 1 + 2 * (stage_flag % 2);
-                    }
+                    if((selected == KeyListener::LEFT || selected == KeyListener::RIGHT) && stage_flag != 3 && stage_flag != 0)
+                        stage_flag += 2 * (stage_flag % 2) - 1;
                     else if(selected == KeyListener::DOWN){
                         if(stage_flag == 3 || stage_flag == 0) stage_flag = !stage_flag;
                         else stage_flag = 3;
@@ -121,13 +112,9 @@ int main(){
                         if(stage_flag == 3 || stage_flag == 4 || stage_flag == 0) stage_flag = !stage_flag;
                         else stage_flag += 2;
                     }
-                    else if(selected == KeyListener::LEFT){
+                    else if(selected == KeyListener::LEFT || selected == KeyListener::RIGHT){
                         if(stage_flag == 0) continue;
-                        stage_flag = stage_flag - 1 + 2 * (stage_flag % 2);
-                    }
-                    else if(selected == KeyListener::RIGHT){
-                        if(stage_flag == 0) continue;
-                        stage_flag = stage_flag - 1 + 2 * (stage_flag % 2);
+                        stage_flag += 2 * (stage_flag % 2) - 1;
                     }
                 }
                 Sound::Select();
