@@ -116,12 +116,11 @@ int main(){
                 else if(opened == 4 || opened == 5){  // Every stage is allowed
                     if(selected == KeyListener::UP){
                         if(stage_flag == 0) stage_flag = 3;
-                        else if(stage_flag / 3 == 0) stage_flag += 2;
+                        else if(stage_flag / 3 == 0) stage_flag = !stage_flag;
                         else stage_flag -= 2;
                     }
                     else if(selected == KeyListener::DOWN){
-                        if(stage_flag == 3 || stage_flag == 0) stage_flag = !stage_flag;
-                        else if(stage_flag == 4) stage_flag -= 2;
+                        if(stage_flag == 3 || stage_flag == 4 || stage_flag == 0) stage_flag = !stage_flag;
                         else stage_flag += 2;
                     }
                     else if(selected == KeyListener::LEFT){
@@ -179,8 +178,12 @@ int main(){
             Stage s{stage_flag};
             // this logic will be done after at least stage 1 is built
             int gameresult = s.Play(printer, stage_flag);
-            if(gameresult == 2) continue; // Reset this Stage
+            if(gameresult == 2) {  // Reset this Stage
+                Sound::Reset();
+                continue;
+            }
             else if(gameresult == 3) {
+                Sound::Back();
                 page_flag = 1;
                 continue;
             }
