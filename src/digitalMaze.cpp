@@ -97,12 +97,10 @@ int main(){
                 }
                 else if(opened == 3){  // stage 1, 2 & 3 allowed
                     if(selected == KeyListener::LEFT && stage_flag != 3 && stage_flag != 0){
-                        if(stage_flag % 2 == 1) stage_flag++;
-                        else stage_flag--;
+                        stage_flag = stage_flag - 1 + 2 * (stage_flag % 2);
                     }
                     else if(selected == KeyListener::RIGHT && stage_flag != 3 && stage_flag != 0){
-                        if(stage_flag % 2 == 0) stage_flag--;
-                        else stage_flag++;
+                        stage_flag = stage_flag - 1 + 2 * (stage_flag % 2);
                     }
                     else if(selected == KeyListener::DOWN){
                         if(stage_flag == 3 || stage_flag == 0) stage_flag = !stage_flag;
@@ -125,13 +123,11 @@ int main(){
                     }
                     else if(selected == KeyListener::LEFT){
                         if(stage_flag == 0) continue;
-                        if(stage_flag % 2 == 1) stage_flag++;
-                        else stage_flag--;
+                        stage_flag = stage_flag - 1 + 2 * (stage_flag % 2);
                     }
                     else if(selected == KeyListener::RIGHT){
                         if(stage_flag == 0) continue;
-                        if(stage_flag % 2 == 0) stage_flag--;
-                        else stage_flag++;
+                        stage_flag = stage_flag - 1 + 2 * (stage_flag % 2);
                     }
                 }
                 Sound::Select();
