@@ -113,8 +113,8 @@ int main(){
                         else stage_flag += 2;
                     }
                     else if(selected == KeyListener::LEFT || selected == KeyListener::RIGHT){
-                        if(stage_flag == 0) continue;
-                        stage_flag += 2 * (stage_flag % 2) - 1;
+                        if (stage_flag == 0);  // if back to stage is selected, do nothing
+                        else stage_flag += 2 * (stage_flag % 2) - 1;
                     }
                 }
                 Sound::Select();
