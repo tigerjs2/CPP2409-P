@@ -12,32 +12,47 @@ int Progress::Get() {  // Get Previous Progress
     // Relative Path of File and Directory
     LPCTSTR save = _T("save");
     LPCTSTR save_dat = _T("save\\savedat.dat");
-    ifstream f;
-    f.open("save/savedat.dat");  // open progress information
+    ifstream f{"save/savedat.dat"};  // open progress information
     if(!PathFileExists(save)) {  // if file doesn't exist
         system("mkdir save");  // mkdir
     }
     if(!PathFileExists(save_dat)){  // if file doesn't exist create new save file
         ofstream f2;
+        if(!f2){  // critical error
+            system("cls");
+            cerr << "ERROR!! Fail to Save Data. Program Terminate in 3 seconds" << endl;
+            Sleep(3000);
+            exit(1);
+        }
         f2.open("save/savedat.dat");
-        f2 << to_string(Encode(1));  // make new savedat.dat file
+        f2 << Encode(1);  // make new savedat.dat file
         f2.close();
         return 1;  // unlock first stage
     }
     else{  // Load stage progress
-        string tmp;
+        if(!f){  // critical error
+            system("cls");
+            cerr << "ERROR!! Fail to Save Data. Program Terminate in 3 seconds" << endl;
+            Sleep(3000);
+            exit(1);
+        }
+        int tmp;
         f >> tmp;
         f.close();
-        int n = stoi(tmp);
+        int n = tmp;
         return Decode(n);  // decode and return stage progress
     }
 }
 
 void Progress::Save(int opened) {  // Save clear progress
     int n = Encode(opened);  // Encode opened
-    fstream f;
-    f.open("save/savedat.dat");
-    f.clear();
-    f << to_string(n);  // Save encoded data
+    ofstream f{"save/savedat.dat"};
+    if(!f){  // critical error
+        system("cls");
+        cerr << "ERROR!! Fail to Save Data. Program Terminate in 3 seconds" << endl;
+        Sleep(3000);
+        exit(1);
+    }
+    f << n;  // Save encoded data
     f.close();
 }

@@ -36,3 +36,9 @@ void Sound::Clear(){  // When Player clear the stage
 void Sound::Fail(){  // When Player fail the stage
     PlaySound(TEXT("sound/fail.wav"), 0, SND_FILENAME | SND_ASYNC);
 }
+void Sound::Back(){  // When Player drop the stage
+    PlaySound(TEXT("sound/back.wav"), 0, SND_FILENAME | SND_ASYNC);
+}
+void Sound::Reset(){  // When Player restart the stage
+    PlaySound(TEXT("sound/reset.wav"), 0, SND_FILENAME | SND_ASYNC);
+}

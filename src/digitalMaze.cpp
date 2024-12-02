@@ -3,7 +3,7 @@ This source code is the Main Part
 This Program only works on Microsoft Windows OS
 */
 #include "stage.h"
-
+#include "progressHandle.h"
 using namespace std;
 
 /*
@@ -15,7 +15,8 @@ Page Flag Instructions
 */
 
 int main(){
-    int opened;  // Opened Stage
+    Progress p;
+    int opened = p.Get();  // Opened Stage
     Frame printer;
     const int CENTINEL = -999; // When pageFlag is CENTINEL shutdown the game
     int page_flag = 0; // Starting Page
@@ -80,23 +81,41 @@ int main(){
                     Sound::Confirm();
                     break;
                 }
-                else if(stage_flag == 0) stage_flag = 3; // When pointer is on back to title, next selection is always stage 3
-                else if(selected == KeyListener::UP){
-                    if(stage_flag / 3 == 0) stage_flag += 2;
-                    else stage_flag -= 2;
+                if(opened == 1){  // only stage 1 is allowed
+                    stage_flag = !stage_flag;
                 }
-                else if(selected == KeyListener::DOWN){
-                    if(stage_flag == 3) stage_flag = 0;
-                    else if(stage_flag == 4) stage_flag -= 2;
-                    else stage_flag += 2;
+                else if(opened == 2){  // stage 1 & 2 allowed
+                    if(stage_flag == 0 || selected == KeyListener::UP || selected == KeyListener::DOWN)
+                        stage_flag = !stage_flag;
+                    else if(selected == KeyListener::LEFT || selected == KeyListener::RIGHT)
+                        stage_flag += 2 * (stage_flag % 2) - 1;
                 }
-                else if(selected == KeyListener::LEFT){
-                    if(stage_flag % 2 == 1) stage_flag++;
-                    else stage_flag--;
+                else if(opened == 3){  // stage 1, 2 & 3 allowed
+                    if((selected == KeyListener::LEFT || selected == KeyListener::RIGHT) && stage_flag != 3 && stage_flag != 0)
+                        stage_flag += 2 * (stage_flag % 2) - 1;
+                    else if(selected == KeyListener::DOWN){
+                        if(stage_flag == 3 || stage_flag == 0) stage_flag = !stage_flag;
+                        else stage_flag = 3;
+                    }
+                    else if(selected == KeyListener::UP){
+                        if(stage_flag == 0) stage_flag = 3;
+                        else stage_flag = stage_flag / 3;
+                    }
                 }
-                else if(selected == KeyListener::RIGHT){
-                    if(stage_flag % 2 == 0) stage_flag--;
-                    else stage_flag++;
+                else if(opened == 4 || opened == 5){  // Every stage is allowed
+                    if(selected == KeyListener::UP){
+                        if(stage_flag == 0) stage_flag = 3;
+                        else if(stage_flag / 3 == 0) stage_flag = !stage_flag;
+                        else stage_flag -= 2;
+                    }
+                    else if(selected == KeyListener::DOWN){
+                        if(stage_flag == 3 || stage_flag == 4 || stage_flag == 0) stage_flag = !stage_flag;
+                        else stage_flag += 2;
+                    }
+                    else if(selected == KeyListener::LEFT || selected == KeyListener::RIGHT){
+                        if (stage_flag == 0);  // if back to stage is selected, do nothing
+                        else stage_flag += 2 * (stage_flag % 2) - 1;
+                    }
                 }
                 Sound::Select();
             }
@@ -142,13 +161,22 @@ int main(){
             Stage s{stage_flag};
             // this logic will be done after at least stage 1 is built
             int gameresult = s.Play(printer, stage_flag);
-            if(gameresult == 2) continue; // Reset this Stage
+            if(gameresult == 2) {  // Reset this Stage
+                Sound::Reset();
+                continue;
+            }
             else if(gameresult == 3) {
+                Sound::Back();
                 page_flag = 1;
                 continue;
             }
             else if(gameresult == 0) Sound::Fail();
-            else if(gameresult == 1) Sound::Clear();
+            else if(gameresult == 1) {
+                Sound::Clear();
+                if(opened == stage_flag){  // if the stage is first cleared
+                    p.Save(++opened);  // update savedat.dat
+                }
+            }
             // Stage End, Give Multiple Choice
             bool choice[3] = {true, false, false};
             int pointer = 0;

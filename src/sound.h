@@ -16,4 +16,6 @@ class Sound {
         static void Unlock();
         static void Clear();
         static void Fail();
+        static void Back();
+        static void Reset();
 };
