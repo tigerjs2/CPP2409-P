@@ -13,7 +13,7 @@ int Progress::Get() {  // Get Previous Progress
     LPCTSTR save = _T("save");
     LPCTSTR save_dat = _T("save\\savedat.dat");
     ifstream f{"save/savedat.dat"};  // open progress information
-    if(!PathFileExists(save)) {  // if file doesn't exist
+    if(!PathFileExists(save)) {  // if directory doesn't exist
         system("mkdir save");  // mkdir
     }
     if(!PathFileExists(save_dat)){  // if file doesn't exist create new save file
@@ -36,10 +36,9 @@ int Progress::Get() {  // Get Previous Progress
             Sleep(3000);
             exit(1);
         }
-        int tmp;
-        f >> tmp;
+        int n;
+        f >> n;
         f.close();
-        int n = tmp;
         return Decode(n);  // decode and return stage progress
     }
 }

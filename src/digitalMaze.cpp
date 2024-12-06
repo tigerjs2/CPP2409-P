@@ -165,7 +165,7 @@ int main(){
                 Sound::Reset();
                 continue;
             }
-            else if(gameresult == 3) {
+            else if(gameresult == 3) {  // Leave stage while it's not ended
                 Sound::Back();
                 page_flag = 1;
                 continue;
